@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
               ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.lightGreen,
+            selectedItemColor: Colors.blue,
             unselectedItemColor: Colors.grey,
           )),
     );

@@ -34,7 +34,8 @@ List<BookModel> BookModelList = [
     pages: 10,
     isbn: '123456789',
     issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/7a4e785f95a8f5057e4c8662d188da3b1717489610.jpg',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/f7739d5e331348ff47b72e52f63e35661705044202.jpg',
     viewer: 100,
   ),
   BookModel(
@@ -46,7 +47,8 @@ List<BookModel> BookModelList = [
     pages: 15,
     isbn: '123456789',
     issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/dcbdfd74dbc950128110851f2a8689c21716804420.jpg',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/dcbdfd74dbc950128110851f2a8689c21716804420.jpg',
     viewer: 100,
   ),
   BookModel(
@@ -58,7 +60,8 @@ List<BookModel> BookModelList = [
     pages: 15,
     isbn: '123456789',
     issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
     viewer: 100,
   ),
   BookModel(
@@ -70,31 +73,21 @@ List<BookModel> BookModelList = [
     pages: 15,
     isbn: '123456789',
     issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/536dc300219cbbf7980f4ab0b63e2d111714124268.jpg',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/536dc300219cbbf7980f4ab0b63e2d111714124268.jpg',
     viewer: 100,
   ),
   BookModel(
-    id: 3,
-    code: "003",
-    title: "កម្រងបញ្ជីឈ្មោះ និងលេខទូរស័ព្ទនៃមន្ត្រីកសិកម្មឃុំ ក្នុងប្រទេសកម្ពុជា",
+    id: 5,
+    code: "005",
+    title: "សៀវភៅកសិករ កម្រងបច្ចេកទេសកសិកម្មល្អៗ ធន់នឹងអាកាសធាតុប្រែប្រួល",
     author: 'VANNA',
     issued: DateTime.now(),
     pages: 15,
     isbn: '123456789',
     issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/e68968f474106a9a557114cc34b27d4a1716282293.png',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 3,
-    code: "003",
-    title: "កម្រងបញ្ជីឈ្មោះ និងលេខទូរស័ព្ទនៃមន្ត្រីកសិកម្មឃុំ ក្នុងប្រទេសកម្ពុជា",
-    author: 'VANNA',
-    issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
-    image: 'https://elibrary.maff.gov.kh/assets/images/books/e68968f474106a9a557114cc34b27d4a1716282293.png',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/e06d061a77a7bde916b8a91163029d411706973135.jpg',
     viewer: 100,
   ),
 ];

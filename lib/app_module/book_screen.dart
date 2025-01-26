@@ -77,11 +77,11 @@ class BookScreen extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         _buildTitleSection("ការដាំដំណាំ"),
-        _buildBookListView(BookModelList, 250, 150),
+        _buildBookListView(BookModelList, 180, 325),
         _buildTitleSection("ការចិញ្ចឹមសត្វ"),
-        _buildBookListView(BookModelList, 250, 150),
+        _buildBookListView(BookModelList, 180, 325),
         _buildTitleSection("វារីវប្បកម្ម"),
-        _buildBookListView(BookModelList, 250, 150),
+        _buildBookListView(BookModelList, 180, 325),
       ],
     );
   }
@@ -91,16 +91,19 @@ class BookScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 10, left: 10),
             child: Text(
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 18,
               ),
             )),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(
+            top: 12,
+            right: 10,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min, // Keeps the row compact
             children: [
@@ -108,7 +111,7 @@ class BookScreen extends StatelessWidget {
                 "មើលទាំងអស់",
                 style: TextStyle(fontSize: 14),
               ),
-              SizedBox(width: 5), // Adds spacing between text and icon
+              SizedBox(width: 3), // Adds spacing between text and icon
               Icon(
                 Icons.arrow_forward,
                 size: 16,
@@ -121,7 +124,7 @@ class BookScreen extends StatelessWidget {
   }
 
   Widget _buildBookListView(
-      List<BookModel> items, double height, double width) {
+      List<BookModel> items, double width, double height) {
     return Container(
       height: height,
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -143,19 +146,86 @@ class BookScreen extends StatelessWidget {
     return Container(
         width: width,
         margin: EdgeInsets.only(right: 10),
+        padding: EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: const Color.fromARGB(255, 229, 229, 229), // Border color
+            width: 1, // Border width
+          ),
+        ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Image.network(
-                item.image,
-                fit: BoxFit.cover,
-                height: double.maxFinite,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)), // Set border radius
+                child: Image.network(
+                  item.image, // Replace with your image path
+                  fit: BoxFit.cover,
+                  height: double.maxFinite,
+                ),
               ),
             ),
-            Text(
-              item.title,
-              maxLines: 1,
-            )
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 5, bottom: 5, left: 8, right: 8), // Top margin of 20
+              child: Text(
+                item.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.today,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        "20 មករា 2025",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      // Adds spacing between text and icon
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.visibility,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        87.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      // Adds spacing between text and icon
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ));
   }
