@@ -258,9 +258,9 @@ class BookScreen extends StatelessWidget {
       // padding: EdgeInsets.all(),
       padding: EdgeInsets.symmetric(horizontal: 10),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
+        crossAxisCount: 3, // Number of columns
+        mainAxisSpacing: 10, // Space between rows
+        crossAxisSpacing: 10, // Space between columns
         childAspectRatio: 1 / 1,
       ),
       itemCount: categoryModelList.length,

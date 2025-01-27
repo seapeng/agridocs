@@ -1,6 +1,6 @@
 class CategoryModel {
   int id = 0;
-  String name = "no title";
+  String name = "no name";
   String image = "no image";
   CategoryModel({this.id = 0, this.name = "no name", this.image = "no image"});
 }
