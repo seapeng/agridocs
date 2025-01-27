@@ -125,7 +125,7 @@ class VideoScreen extends StatelessWidget {
         ),
         border: Border.all(
           color: const Color.fromARGB(255, 229, 229, 229), // Border color
-          width: 1, // Border width
+          width: 1,
         ),
       ),
       child: Column(
