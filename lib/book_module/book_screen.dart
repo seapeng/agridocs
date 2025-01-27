@@ -291,7 +291,7 @@ class BookScreen extends StatelessWidget {
                 Radius.circular(10),
               ), // Set border radius
               child: Image.network(
-                item.image, // Replace with your image path
+                item.image,
                 fit: BoxFit.cover,
                 height: double.maxFinite,
               ),
