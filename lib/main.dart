@@ -1,6 +1,6 @@
-import 'package:agridocs/app_module/main_app.dart';
 import 'package:flutter/material.dart';
+import '/book_module/book_app.dart';
 
 void main() {
-  runApp( MainApp());
+  runApp( BookApp());
 }

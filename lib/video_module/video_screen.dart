@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '/app_module/book_model.dart';
-import '/app_module/category_model.dart';
+import 'video_model.dart';
+import 'category_model.dart';
 
-class BookScreen extends StatelessWidget {
-  const BookScreen({super.key});
+class VideoScreen extends StatelessWidget {
+  const VideoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +78,11 @@ class BookScreen extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         _buildTitleSection("ការដាំដំណាំ"),
-        _buildBookListView(bookModelList, 180, 325),
+        _buildBookListView(videoModelList, 175, 325),
         _buildTitleSection("ការចិញ្ចឹមសត្វ"),
-        _buildBookListView(bookModelList, 180, 325),
+        _buildBookListView(videoModelList, 175, 325),
         _buildTitleSection("វារីវប្បកម្ម"),
-        _buildBookListView(bookModelList, 180, 325),
+        _buildBookListView(videoModelList, 175, 325),
         _buildSingleTitle(),
         _buildCategoryGridView(),
       ],
@@ -141,7 +141,7 @@ class BookScreen extends StatelessWidget {
   }
 
   Widget _buildBookListView(
-      List<BookModel> items, double width, double height) {
+      List<VideoModel> items, double width, double height) {
     return Container(
       height: height,
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -159,7 +159,7 @@ class BookScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBookItem(BookModel item, width) {
+  Widget _buildBookItem(VideoModel item, width) {
     return Container(
       width: width,
       margin: EdgeInsets.only(right: 10),
