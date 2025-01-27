@@ -132,8 +132,9 @@ class VideoScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
               ), // Set border radius
               child: Image.network(
                 "https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg",
