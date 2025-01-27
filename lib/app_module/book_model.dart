@@ -24,7 +24,7 @@ class BookModel {
   });
 }
 
-List<BookModel> BookModelList = [
+List<BookModel> bookModelList = [
   BookModel(
     id: 1,
     code: '001',
