@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/video_module/video_app.dart';
+import '/book_module/book_app.dart';
 
 void main() {
-  runApp(VideoApp());
+  runApp(BookApp());
 }

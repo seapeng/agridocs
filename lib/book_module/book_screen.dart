@@ -1,10 +1,20 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'book_model.dart';
 import 'category_model.dart';
+import 'book_detail.dart';
+import 'book_search_screen.dart';
 
-class BookScreen extends StatelessWidget {
+class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
 
+  @override
+  State<BookScreen> createState() => _BookScreenState();
+}
+
+class _BookScreenState extends State<BookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +46,11 @@ class BookScreen extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
-            debugPrint('Search');
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                builder: (context) => BookSearchScreen(),
+              ),
+            );
           },
         ),
       ],
@@ -159,6 +173,14 @@ class BookScreen extends StatelessWidget {
     );
   }
 
+  void _pageDetail(String title, String image) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => BookDetail(title: title, image: image),
+      ),
+    );
+  }
+
   Widget _buildBookItem(BookModel item, width) {
     return Container(
       width: width,
@@ -175,15 +197,18 @@ class BookScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ), // Set border radius
-              child: Image.network(
-                item.image, // Replace with your image path
-                fit: BoxFit.cover,
-                height: double.maxFinite,
+            child: InkWell(
+              onTap: () => _pageDetail(item.title, item.image),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ), // Set border radius
+                child: Image.network(
+                  item.image, // Replace with your image path
+                  fit: BoxFit.cover,
+                  height: double.maxFinite,
+                ),
               ),
             ),
           ),
