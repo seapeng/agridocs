@@ -54,25 +54,83 @@ class _BookInCategoryState extends State<BookInCategory> {
   }
 
   Widget _buildBookItem(BookModel book) {
-    return ListTile(
-      leading: Image.network(
-        book.image,
-        width: 50,
-        height: 50,
-        fit: BoxFit.cover,
-      ),
-      title: Text(book.title),
-      subtitle: Text(book.author),
-      onTap: () {
-        Navigator.of(context).push(
-          CupertinoPageRoute(
-            builder: (context) => BookDetail(
-              title: book.title,
-              image: book.image,
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: InkWell(
+        onTap: () => _pageDetail(book.title, book.image),
+        child: Row(
+          children: [
+            Container(
+              width: 100, // Set the desired width
+              height: 100, // Set the desired height
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: NetworkImage(book.image),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-        );
-      },
+            Expanded(
+              child: SizedBox(
+                height: 100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      book.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.today,
+                          size: 12,
+                        ),
+                        SizedBox(width: 3),
+                        Text(
+                          "12 Mar 2024",
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Icon(
+                          Icons.visibility,
+                          size: 12,
+                        ),
+                        SizedBox(width: 3),
+                        Text(
+                          87.toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _pageDetail(String title, String image) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => BookDetail(
+          title: title,
+          image: image,
+        ),
+      ),
     );
   }
 }

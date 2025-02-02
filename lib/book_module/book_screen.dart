@@ -253,7 +253,6 @@ class _BookScreenState extends State<BookScreen> {
                       "20 មករា 2025",
                       style: TextStyle(fontSize: 12),
                     ),
-                    // Adds spacing between text and icon
                   ],
                 ),
               ),
