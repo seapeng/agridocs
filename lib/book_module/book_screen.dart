@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:agridocs/book_module/book_in_category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'book_model.dart';
@@ -122,22 +121,35 @@ class _BookScreenState extends State<BookScreen> {
             top: 12,
             right: 10,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min, // Keeps the row compact
-            children: [
-              Text(
-                "មើលទាំងអស់",
-                style: TextStyle(fontSize: 14),
-              ),
-              SizedBox(width: 3), // Adds spacing between text and icon
-              Icon(
-                Icons.arrow_forward,
-                size: 16,
-              ),
-            ],
+          child: InkWell(
+            onTap: () => _BookInCategory(title),
+            child: Row(
+              mainAxisSize: MainAxisSize.min, // Keeps the row compact
+              children: [
+                Text(
+                  "បង្ហាញទាំងអស់",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(width: 3), // Adds spacing between text and icon
+                Icon(
+                  Icons.arrow_forward,
+                  size: 16,
+                ),
+              ],
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  void _BookInCategory(String title) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => BookInCategory(title: title),
+      ),
     );
   }
 
