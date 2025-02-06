@@ -52,6 +52,7 @@ class _BookDetailState extends State<BookDetail> {
         _buildDetailRow('ភាសា: ', 'ខ្មែរ'),
         _buildDetailRow('ចំនួនទំព័រ: ', widget.pages.toString()),
         _buildDetailRow('ប្រភេទសៀវភៅ: ', 'កសិកម្ម'),
+        _buildDetailRow('Url: ', widget.ebook),
       ],
     );
   }

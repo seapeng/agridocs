@@ -38,8 +38,7 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/f7739d5e331348ff47b72e52f63e35661705044202.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
+    ebook: 'assets/files/123.pdf',
     viewer: 100,
   ),
   BookModel(
