@@ -57,7 +57,7 @@ class _BookInCategoryState extends State<BookInCategory> {
     return Card(
       margin: EdgeInsets.all(8),
       child: InkWell(
-        onTap: () => _pageDetail(book.title, book.image),
+        onTap: () => _pageDetail(book),
         child: Row(
           children: [
             Container(
@@ -123,12 +123,16 @@ class _BookInCategoryState extends State<BookInCategory> {
     );
   }
 
-  void _pageDetail(String title, String image) {
+  void _pageDetail(BookModel book) {
     Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => BookDetail(
-          title: title,
-          image: image,
+          title: book.title,
+          image: book.image,
+          author: book.author,
+          issued: book.issued,
+          pages: book.pages,
+          ebook: book.ebook,
         ),
       ),
     );

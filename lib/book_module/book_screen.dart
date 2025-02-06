@@ -185,15 +185,22 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  void _pageDetail(String title, String image) {
+  void _pageDetail(BookModel book) {
     Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => BookDetail(title: title, image: image),
+        builder: (context) => BookDetail(
+          title: book.title,
+          image: book.image,
+          author: book.author,
+          issued: book.issued,
+          pages: book.pages,
+          ebook: book.ebook,
+        ),
       ),
     );
   }
 
-  Widget _buildBookItem(BookModel item, width) {
+  Widget _buildBookItem(BookModel book, width) {
     return Container(
       width: width,
       margin: EdgeInsets.only(right: 10),
@@ -210,14 +217,14 @@ class _BookScreenState extends State<BookScreen> {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () => _pageDetail(item.title, item.image),
+              onTap: () => _pageDetail(book),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
                 ), // Set border radius
                 child: Image.network(
-                  item.image, // Replace with your image path
+                  book.image, // Replace with your image path
                   fit: BoxFit.cover,
                   height: double.maxFinite,
                 ),
@@ -228,7 +235,7 @@ class _BookScreenState extends State<BookScreen> {
             padding: const EdgeInsets.only(
                 top: 5, bottom: 5, left: 8, right: 8), // Top margin of 20
             child: Text(
-              item.title,
+              book.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 16, color: Colors.black),

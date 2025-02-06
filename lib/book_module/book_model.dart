@@ -8,6 +8,7 @@ class BookModel {
   String isbn = "no isbn";
   String issn = "no issn";
   String image = "no image";
+  String ebook = "no ebook";
   int viewer = 0;
 
   BookModel({
@@ -20,6 +21,7 @@ class BookModel {
     this.isbn = "no isbn",
     this.issn = "no issn",
     this.image = "no image",
+    this.ebook = "no ebook",
     this.viewer = 0,
   });
 }
@@ -36,6 +38,8 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/f7739d5e331348ff47b72e52f63e35661705044202.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
   BookModel(
@@ -49,6 +53,8 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/dcbdfd74dbc950128110851f2a8689c21716804420.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
   BookModel(
@@ -62,6 +68,8 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
   BookModel(
@@ -75,6 +83,8 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/536dc300219cbbf7980f4ab0b63e2d111714124268.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
   BookModel(
@@ -88,6 +98,8 @@ List<BookModel> bookModelList = [
     issn: '987654321',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/e06d061a77a7bde916b8a91163029d411706973135.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
 ];
