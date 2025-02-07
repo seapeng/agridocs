@@ -1,4 +1,5 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "npm.enableRunFromFolder": false
+    "npm.enableRunFromFolder": false,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
