@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/book_module/book_app.dart';
+import 'app_module/main_app.dart';
 
 void main() {
-  runApp(BookApp());
+  runApp(MainApp());
 }

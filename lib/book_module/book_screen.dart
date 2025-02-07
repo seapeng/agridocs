@@ -19,17 +19,17 @@ class _BookScreenState extends State<BookScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      bottomNavigationBar: _buildBottomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        onPressed: () {
-          debugPrint("Hello WOrld");
-        },
-        child: Icon(
-          Icons.arrow_upward,
-          color: Colors.white,
-        ),
-      ),
+      // bottomNavigationBar: _buildBottomNavBar(),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.blue,
+      //   onPressed: () {
+      //     debugPrint("Hello WOrld");
+      //   },
+      //   child: Icon(
+      //     Icons.arrow_upward,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 
@@ -63,24 +63,24 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildBottomNavBar() {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.folder),
-          label: 'ឯកសារ',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.smart_display),
-          label: 'វីដេអូ',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.menu),
-          label: 'បន្ថែម',
-        ),
-      ],
-    );
-  }
+  // Widget _buildBottomNavBar() {
+  //   return BottomNavigationBar(
+  //     items: const <BottomNavigationBarItem>[
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.folder),
+  //         label: 'ឯកសារ',
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.smart_display),
+  //         label: 'វីដេអូ',
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.menu),
+  //         label: 'បន្ថែម',
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildBody() {
     return _buildListView();
@@ -122,7 +122,7 @@ class _BookScreenState extends State<BookScreen> {
             right: 10,
           ),
           child: InkWell(
-            onTap: () => _BookInCategory(title),
+            onTap: () => _bookInCategory(title),
             child: Row(
               mainAxisSize: MainAxisSize.min, // Keeps the row compact
               children: [
@@ -145,7 +145,7 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  void _BookInCategory(String title) {
+  void _bookInCategory(String title) {
     Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => BookInCategory(title: title),

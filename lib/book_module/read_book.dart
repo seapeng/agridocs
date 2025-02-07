@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class ReadBook extends StatefulWidget {
   // const BookDetail({super.key});
@@ -32,8 +32,6 @@ class _BookDetailState extends State<ReadBook> {
   }
 
   Widget _buildBody() {
-    return SfPdfViewer.asset(
-      "asset/files/123.pdf",
-    );
+    return Text('Read Book');
   }
 }

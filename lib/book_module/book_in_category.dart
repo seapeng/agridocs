@@ -29,18 +29,18 @@ class _BookInCategoryState extends State<BookInCategory> {
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: false,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            Navigator.of(context).push(
-              CupertinoPageRoute(
-                builder: (context) => BookSearchScreen(),
-              ),
-            );
-          },
-        ),
-      ],
+      // actions: [
+      //   IconButton(
+      //     icon: const Icon(Icons.search),
+      //     onPressed: () {
+      //       Navigator.of(context).push(
+      //         CupertinoPageRoute(
+      //           builder: (context) => BookSearchScreen(),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ],
     );
   }
 

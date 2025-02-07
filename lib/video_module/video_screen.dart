@@ -8,17 +8,17 @@ class VideoScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      bottomNavigationBar: _buildBottomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        onPressed: () {
-          debugPrint("Hello WOrld");
-        },
-        child: Icon(
-          Icons.arrow_upward,
-          color: Colors.white,
-        ),
-      ),
+      // bottomNavigationBar: _buildBottomNavBar(),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.blue,
+      //   onPressed: () {
+      //     debugPrint("Hello WOrld");
+      //   },
+      //   child: Icon(
+      //     Icons.arrow_upward,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 
