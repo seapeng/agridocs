@@ -48,24 +48,24 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavBar() {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.folder),
-          label: 'ឯកសារ',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.smart_display),
-          label: 'វីដេអូ',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.menu),
-          label: 'បន្ថែម',
-        ),
-      ],
-    );
-  }
+  // Widget _buildBottomNavBar() {
+  //   return BottomNavigationBar(
+  //     items: const <BottomNavigationBarItem>[
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.folder),
+  //         label: 'ឯកសារ',
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.smart_display),
+  //         label: 'វីដេអូ',
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(Icons.menu),
+  //         label: 'បន្ថែម',
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildBody() {
     return _buildListView();

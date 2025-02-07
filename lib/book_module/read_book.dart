@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class ReadBook extends StatefulWidget {
-  // const BookDetail({super.key});
-
+  // const ReadBook({super.key});
   final String title;
   final String ebook;
 
   const ReadBook({required this.title, required this.ebook});
 
   @override
-  State<ReadBook> createState() => _BookDetailState();
+  State<ReadBook> createState() => _ReadBookState();
 }
 
-class _BookDetailState extends State<ReadBook> {
+class _ReadBookState extends State<ReadBook> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +30,6 @@ class _BookDetailState extends State<ReadBook> {
   }
 
   Widget _buildBody() {
-    return Text('Read Book');
+    return Text("hello");
   }
 }
