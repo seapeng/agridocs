@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'video_search_screen.dart';
 import 'video_model.dart';
-import 'video_detail.dart';
+import 'video_search_screen.dart';
 
 class VideoScreen extends StatefulWidget {
-  const VideoScreen({super.key});
-
   @override
   State<VideoScreen> createState() => _VideoScreenState();
 }
@@ -51,83 +48,58 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildBody() {
-    return _buildListView();
-  }
-
-  Widget _buildListView() {
-    return ListView(
+    return ListView.builder(
       physics: BouncingScrollPhysics(),
-      children: <Widget>[
-        _buildSingleTitle('វីដេអូ'),
-        _buildVideoGridView(),
-      ],
-    );
-  }
-
-  Widget _buildSingleTitle(title) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVideoGridView() {
-    return GridView.builder(
-      // physics: BouncingScrollPhysics(),
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      // padding: EdgeInsets.all(),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        mainAxisSpacing: 10,
-        childAspectRatio: 2 / 1.5,
-      ),
       itemCount: videoModelList.length,
       itemBuilder: (context, index) {
-        return _buildVideoGridItem(videoModelList[index]);
+        return _videoCard(videoModelList[index]);
       },
     );
   }
 
-  void _pageDetail(VideoModel video) {
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => VideoDetail(
-          title: video.title,
-          youtubeId: video.youtubeId,
-          published: video.published,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVideoGridItem(VideoModel video) {
+  Widget _videoCard(VideoModel video) {
     return Column(
       children: [
-        Expanded(
-          child: InkWell(
-            onTap: () => _pageDetail(video),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              child: Image.network(
-                "https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg",
-                fit: BoxFit.cover,
-                height: double.maxFinite,
-              ),
-            ),
+        SizedBox(
+          width: double.infinity,
+          child: Image.network(
+            "https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg",
+            fit: BoxFit.cover,
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 10,
+            bottom: 30,
+          ),
+          child: Text(
+            video.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 16, color: Colors.black),
+          ),
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(0.0),
+        //   child: Row(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Expanded(
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: [
+        //             Text(
+        //               video.title,
+        //             ),
+        //             SizedBox(height: 5),
+        //           ],
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

@@ -19,17 +19,6 @@ class _BookScreenState extends State<BookScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      // bottomNavigationBar: _buildBottomNavBar(),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.blue,
-      //   onPressed: () {
-      //     debugPrint("Hello WOrld");
-      //   },
-      //   child: Icon(
-      //     Icons.arrow_upward,
-      //     color: Colors.white,
-      //   ),
-      // ),
     );
   }
 
@@ -62,25 +51,6 @@ class _BookScreenState extends State<BookScreen> {
       child: (Image.asset('assets/images/logo.png')),
     );
   }
-
-  // Widget _buildBottomNavBar() {
-  //   return BottomNavigationBar(
-  //     items: const <BottomNavigationBarItem>[
-  //       BottomNavigationBarItem(
-  //         icon: Icon(Icons.folder),
-  //         label: 'ឯកសារ',
-  //       ),
-  //       BottomNavigationBarItem(
-  //         icon: Icon(Icons.smart_display),
-  //         label: 'វីដេអូ',
-  //       ),
-  //       BottomNavigationBarItem(
-  //         icon: Icon(Icons.menu),
-  //         label: 'បន្ថែម',
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget _buildBody() {
     return _buildListView();
@@ -179,7 +149,7 @@ class _BookScreenState extends State<BookScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: items.length,
         itemBuilder: (context, index) {
-          return _buildBookItem(items[index], width);
+          return _buildBookListItem(items[index], width);
         },
       ),
     );
@@ -200,7 +170,7 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildBookItem(BookModel book, width) {
+  Widget _buildBookListItem(BookModel book, width) {
     return Container(
       width: width,
       margin: EdgeInsets.only(right: 10),
@@ -233,7 +203,11 @@ class _BookScreenState extends State<BookScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(
-                top: 5, bottom: 5, left: 8, right: 8), // Top margin of 20
+              top: 5,
+              bottom: 5,
+              left: 8,
+              right: 8,
+            ), // Top margin of 20
             child: Text(
               book.title,
               maxLines: 1,
@@ -313,7 +287,7 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildGridCategoryItem(CategoryModel item) {
+  Widget _buildGridCategoryItem(CategoryModel book) {
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -334,7 +308,7 @@ class _BookScreenState extends State<BookScreen> {
                 Radius.circular(10),
               ), // Set border radius
               child: Image.network(
-                item.image,
+                book.image,
                 fit: BoxFit.cover,
                 height: double.maxFinite,
               ),
@@ -344,7 +318,7 @@ class _BookScreenState extends State<BookScreen> {
             height: 8,
           ),
           Text(
-            item.name,
+            book.name,
             style: TextStyle(
               fontSize: 14,
             ),

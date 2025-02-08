@@ -18,7 +18,6 @@ class VideoDetail extends StatefulWidget {
 
 class _VideoDetailState extends State<VideoDetail> {
   late WebViewController controller;
-  String videoId = 'qykdGycEWLk';
   @override
   void initState() {
     super.initState();
@@ -28,13 +27,13 @@ class _VideoDetailState extends State<VideoDetail> {
         '''
         <!DOCTYPE html>
         <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-        </head>
-        <body style="margin: 0; padding: 0;">
-          <iframe width="100%" height="300" src="https://www.youtube.com/embed/$videoId" 
-          frameborder="0" allowfullscreen></iframe>
-        </body>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+          </head>
+          <body style="margin: 0; padding: 0;">
+            <iframe width="100%" height="250" src="https://www.youtube.com/embed/${widget.youtubeId}" 
+            frameborder="0" allowfullscreen></iframe>
+          </body>
         </html>
         ''',
         mimeType: 'text/html',
