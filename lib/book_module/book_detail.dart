@@ -43,17 +43,19 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   Widget _buildBody() {
-    return Column(
-      children: [
-        _buildBookImage(),
-        _buildReadButton(),
-        _buildDetailRow('អ្នកនិពន្ធ: ', widget.author),
-        _buildDetailRow('ថ្ងៃបោះពុម្ភផ្សាយ: ', widget.issued.toString()),
-        _buildDetailRow('ភាសា: ', 'ខ្មែរ'),
-        _buildDetailRow('ចំនួនទំព័រ: ', widget.pages.toString()),
-        _buildDetailRow('ប្រភេទសៀវភៅ: ', 'កសិកម្ម'),
-        _buildDetailRow('Url: ', widget.ebook),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildBookImage(),
+          _buildBookTitle(),
+          _buildReadButton(),
+          _buildDetailRow('អ្នកនិពន្ធ: ', widget.author),
+          _buildDetailRow('ថ្ងៃបោះពុម្ភផ្សាយ: ', widget.issued.toString()),
+          _buildDetailRow('ភាសា: ', 'ខ្មែរ'),
+          _buildDetailRow('ចំនួនទំព័រ: ', widget.pages.toString()),
+          _buildDetailRow('ប្រភេទសៀវភៅ: ', 'កសិកម្ម'),
+        ],
+      ),
     );
   }
 
@@ -71,10 +73,28 @@ class _BookDetailState extends State<BookDetail> {
     );
   }
 
+  Widget _buildBookTitle() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.all(20),
+      child: Text(
+        widget.title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
   Widget _buildReadButton() {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 15),
+      margin: EdgeInsets.only(
+        left: 20,
+        right: 20,
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,

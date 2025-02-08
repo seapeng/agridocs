@@ -30,30 +30,32 @@ List<BookModel> bookModelList = [
   BookModel(
     id: 1,
     code: '001',
-    title: "ទស្សនាវដ្តីខេត្តព្រះវិហារ២០២៣",
-    author: 'SOVANN',
+    title:
+        "សៀវភៅណែនាំ​ស្ដីពី​ ការ​ចិញ្ចឹម​មាន់ពូជ​ក្នុងស្រុក​សម្រាប់​ភ្ញាស់​យក​កូន​ យក​សាច់​ជា​លក្ខណៈ​ពាណិជ្ជកម្ម​",
+    author: 'នាយកដ្ឋាន​ផ្សព្វផ្សាយកសិកម្ម​ រុក្ខាប្រមាញ់​ និងនេសាទ',
     issued: DateTime.now(),
-    pages: 10,
-    isbn: '123456789',
-    issn: '987654321',
+    pages: 31,
+    isbn: 'N/A',
+    issn: 'N/A',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/f7739d5e331348ff47b72e52f63e35661705044202.jpg',
-    ebook: 'assets/files/123.pdf',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/f9bb05bf6cfbf8fe8b2223623d5458be1705047288.pdf',
     viewer: 100,
   ),
   BookModel(
     id: 2,
     code: '002',
     title: "ជំងឺដុំពកស្បែកគោ",
-    author: 'VANNA',
+    author: 'អគ្គនាយកដ្ឋានសុខភាពសត្វ និងផលិតកម្មសត្វ',
     issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
+    pages: 2,
+    isbn: 'N/A',
+    issn: 'N/A',
     image:
         'https://elibrary.maff.gov.kh/assets/images/books/dcbdfd74dbc950128110851f2a8689c21716804420.jpg',
     ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
+        'https://elibrary.maff.gov.kh/assets/files/books/b9cd2dd0610f3ffbe49de52d74e6c9a61716804420.pdf',
     viewer: 100,
   ),
   BookModel(

@@ -10,6 +10,7 @@ class VideoApp extends StatelessWidget {
       home: VideoScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
             backgroundColor: const Color.fromARGB(255, 33, 112, 35),

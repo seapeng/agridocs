@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class ReadBook extends StatefulWidget {
   // const ReadBook({super.key});
@@ -30,6 +31,15 @@ class _ReadBookState extends State<ReadBook> {
   }
 
   Widget _buildBody() {
-    return Text("hello");
+    // return PDF(
+    //   enableSwipe: true,
+    //   swipeHorizontal: false,
+    //   autoSpacing: false,
+    //   pageFling: false,
+    // ).cachedFromUrl(
+    //   widget.ebook,
+    //   placeholder: (progress) => Center(child: Text('$progress %')),
+    // );
+    return Text('Hello');
   }
 }

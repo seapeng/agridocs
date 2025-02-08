@@ -1,0 +1,91 @@
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      leading: _buildLeadingLogo(),
+      title: const Text(
+        'បណ្ណាល័យកសិកម្ម',
+        style: TextStyle(color: Colors.white),
+      ),
+      centerTitle: false,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                builder: (context) => VideoSearchScreen(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLeadingLogo() {
+    return Container(
+      padding: const EdgeInsets.only(left: 5, bottom: 5, top: 5),
+      child: (Image.asset('assets/images/logo.png')),
+    );
+  }
+
+  // Widget _buildBottomNavBar() {
+  Widget _buildBody() {
+    return Text("Hello");
+  }
+
+  Widget _buildListView() {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: <Widget>[
+        _buildSingleTitle('វីដេអូ'),
+        _buildVideoGridView(),
+      ],
+    );
+  }
+
+  Widget _buildSingleTitle(title) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVideoGridView() {
+    return GridView.builder(
+      // physics: BouncingScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      // padding: EdgeInsets.all(),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        childAspectRatio: 2 / 1.5,
+      ),
+      itemCount: videoModelList.length,
+      itemBuilder: (context, index) {
+        return _buildVideoGridItem(videoModelList[index]);
+      },
+    );
+  }
+
+  Widget _buildVideoGridItem(VideoModel video) {
+    return Column(
+      children: [
+        Expanded(
+          child: Text("Hello"),
+        ),
+
+        // Adds spacing between text and icon
+      ],
+    );
+  }
