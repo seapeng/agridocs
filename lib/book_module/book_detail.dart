@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'read_book.dart';
 
 class BookDetail extends StatefulWidget {
-  // const BookDetail({super.key});
-
   final String title;
   final String image;
   final String author;
