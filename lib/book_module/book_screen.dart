@@ -136,36 +136,18 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildBookListView(
-      List<BookModel> items, double width, double height) {
+  Widget _buildBookListView(List<BookModel> book, double width, double height) {
     return Container(
       height: height,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
-        padding: EdgeInsets.symmetric(
-          vertical: 10,
-        ),
+        padding: EdgeInsets.symmetric(vertical: 10),
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: items.length,
+        itemCount: book.length,
         itemBuilder: (context, index) {
-          return _buildBookListItem(items[index], width);
+          return _buildBookListItem(book[index], width);
         },
-      ),
-    );
-  }
-
-  void _pageDetail(BookModel book) {
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => BookDetail(
-          title: book.title,
-          image: book.image,
-          author: book.author,
-          issued: book.issued,
-          pages: book.pages,
-          ebook: book.ebook,
-        ),
       ),
     );
   }
@@ -262,6 +244,21 @@ class _BookScreenState extends State<BookScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void _pageDetail(BookModel book) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => BookDetail(
+          title: book.title,
+          image: book.image,
+          author: book.author,
+          issued: book.issued,
+          pages: book.pages,
+          ebook: book.ebook,
+        ),
       ),
     );
   }

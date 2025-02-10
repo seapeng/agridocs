@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'video_model.dart';
 import 'video_search_screen.dart';
 import 'video_detail.dart';
+import 'video_category_model.dart';
 
 class VideoScreen extends StatefulWidget {
   @override
@@ -49,6 +50,58 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildBody() {
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: _buildVideoListView(),
+        ),
+      ],
+    );
+  }
+
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return SizedBox(
+      height: 50,
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: videoCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(videoCategoryModelList[index], index);
+        },
+      ),
+    );
+  }
+
+  Widget _categoryCard(VideoCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVideoListView() {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
       itemCount: videoModelList.length,

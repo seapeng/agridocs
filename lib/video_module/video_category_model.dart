@@ -7,7 +7,11 @@ class VideoCategoryModel {
   });
 }
 
-List<VideoCategoryModel> categoryModelList = [
+List<VideoCategoryModel> videoCategoryModelList = [
+  VideoCategoryModel(
+    id: 0,
+    name: "ទាំងអស់",
+  ),
   VideoCategoryModel(
     id: 1,
     name: "ការដាំដំណាំ",
