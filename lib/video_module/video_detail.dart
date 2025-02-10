@@ -4,12 +4,16 @@ import 'dart:convert';
 
 class VideoDetail extends StatefulWidget {
   final String title;
+  final String author;
   final String youtubeId;
   final DateTime published;
+  final int view;
   const VideoDetail({
     required this.title,
+    required this.author,
     required this.youtubeId,
     required this.published,
+    required this.view,
   });
 
   @override
@@ -45,7 +49,61 @@ class _VideoDetailState extends State<VideoDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: WebViewWidget(controller: controller),
+      body: _buildBody(),
+      // body: WebViewWidget(controller: controller),
+    );
+  }
+
+  Widget _buildBody() {
+    return Column(
+      children: [
+        _buildVideoPlayer(),
+        _buildVideoTitle(),
+        Divider(),
+        _buildDetailRow('ផលិតដោយ: ', widget.author),
+        _buildDetailRow('ថ្ងៃចុះផ្សាយ: ', widget.published.toString()),
+        _buildDetailRow('អ្នកទស្សនា: ', widget.view.toString()),
+      ],
+    );
+  }
+
+  Widget _buildVideoPlayer() {
+    return SizedBox(
+      height: 250,
+      child: WebViewWidget(controller: controller),
+    );
+  }
+
+  Widget _buildVideoTitle() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Text(
+        widget.title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String title, String value) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -74,7 +74,7 @@ class _BookDetailState extends State<BookDetail> {
   Widget _buildBookTitle() {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
         widget.title,
         textAlign: TextAlign.center,

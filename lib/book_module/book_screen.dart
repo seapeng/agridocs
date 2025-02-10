@@ -300,31 +300,34 @@ class _BookScreenState extends State<BookScreen> {
           width: 1, // Border width
         ),
       ),
-      child: Column(
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ), // Set border radius
-              child: Image.network(
-                book.image,
-                fit: BoxFit.cover,
-                height: double.maxFinite,
+      child: InkWell(
+        onTap: () => _bookInCategory(book.name),
+        child: Column(
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ), // Set border radius
+                child: Image.network(
+                  book.image,
+                  fit: BoxFit.cover,
+                  height: double.maxFinite,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            book.name,
-            style: TextStyle(
-              fontSize: 14,
+            SizedBox(
+              height: 10,
             ),
-          ),
-          // Adds spacing between text and icon
-        ],
+            Text(
+              book.name,
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            // Adds spacing between text and icon
+          ],
+        ),
       ),
     );
   }
