@@ -63,8 +63,9 @@ class _VideoScreenState extends State<VideoScreen> {
   int _selectedIndex = 0;
 
   Widget _buildCategoryListView() {
-    return SizedBox(
+    return Container(
       height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
@@ -112,89 +113,92 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _videoCard(VideoModel video) {
-    return Card(
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () => _pageDetail(video),
-            child: SizedBox(
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: Image.network(
-                  "https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg",
-                  fit: BoxFit.cover,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Card(
+        child: Column(
+          children: [
+            InkWell(
+              onTap: () => _pageDetail(video),
+              child: SizedBox(
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    "https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 10,
+                  bottom: 10,
+                ),
+                child: Text(
+                  video.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(
                 left: 20,
                 right: 20,
-                top: 10,
                 bottom: 10,
               ),
-              child: Text(
-                video.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+              child: Row(
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.today,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        "20 មករា 2025",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 20),
+                  Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.visibility,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        video.view.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      // Adds spacing between text and icon
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              bottom: 10,
-            ),
-            child: Row(
-              children: <Widget>[
-                Row(
-                  mainAxisSize: MainAxisSize.min, // Keeps the row compact
-                  children: [
-                    Icon(
-                      Icons.today,
-                      size: 12,
-                    ),
-                    SizedBox(width: 3),
-                    Text(
-                      "20 មករា 2025",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 20),
-                Row(
-                  mainAxisSize: MainAxisSize.min, // Keeps the row compact
-                  children: [
-                    Icon(
-                      Icons.visibility,
-                      size: 12,
-                    ),
-                    SizedBox(width: 3),
-                    Text(
-                      video.view.toString(),
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    // Adds spacing between text and icon
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

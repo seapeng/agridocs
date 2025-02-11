@@ -2,7 +2,7 @@ import 'package:agridocs/book_module/book_in_category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'book_model.dart';
-import 'category_model.dart';
+import 'book_category_model.dart';
 import 'book_detail.dart';
 import 'book_search_screen.dart';
 
@@ -57,59 +57,12 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _buildListView() {
-    return ListView(
-      physics: BouncingScrollPhysics(),
+    return Column(
+      // physics: BouncingScrollPhysics(),
       children: <Widget>[
-        _buildTitleSection("ការដាំដំណាំ"),
-        _buildBookListView(bookModelList, 175, 325),
-        _buildTitleSection("ការចិញ្ចឹមសត្វ"),
-        _buildBookListView(bookModelList, 175, 325),
-        _buildTitleSection("វារីវប្បកម្ម"),
-        _buildBookListView(bookModelList, 175, 325),
-        _buildSingleTitle(),
-        _buildCategoryGridView(),
-      ],
-    );
-  }
-
-  Widget _buildTitleSection(title) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 10, left: 10),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 12,
-            right: 10,
-          ),
-          child: InkWell(
-            onTap: () => _bookInCategory(title),
-            child: Row(
-              mainAxisSize: MainAxisSize.min, // Keeps the row compact
-              children: [
-                Text(
-                  "បង្ហាញទាំងអស់",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-                SizedBox(width: 3), // Adds spacing between text and icon
-                Icon(
-                  Icons.arrow_forward,
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
+        _buildCategoryListView(),
+        Expanded(
+          child: _buildBookGridView(),
         ),
       ],
     );
@@ -119,131 +72,6 @@ class _BookScreenState extends State<BookScreen> {
     Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => BookInCategory(title: title),
-      ),
-    );
-  }
-
-  Widget _buildSingleTitle() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Text(
-        "ប្រភេទសៀវភៅ",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBookListView(List<BookModel> book, double width, double height) {
-    return Container(
-      height: height,
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: book.length,
-        itemBuilder: (context, index) {
-          return _buildBookListItem(book[index], width);
-        },
-      ),
-    );
-  }
-
-  Widget _buildBookListItem(BookModel book, width) {
-    return Container(
-      width: width,
-      margin: EdgeInsets.only(right: 10),
-      padding: EdgeInsets.only(bottom: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color.fromARGB(255, 229, 229, 229), // Border color
-          width: 1, // Border width
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: () => _pageDetail(book),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ), // Set border radius
-                child: Image.network(
-                  book.image, // Replace with your image path
-                  fit: BoxFit.cover,
-                  height: double.maxFinite,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 5,
-              bottom: 5,
-              left: 8,
-              right: 8,
-            ), // Top margin of 20
-            child: Text(
-              book.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: Colors.black),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, // Keeps the row compact
-                  children: [
-                    Icon(
-                      Icons.today,
-                      size: 12,
-                    ),
-                    SizedBox(width: 3),
-                    Text(
-                      "20 មករា 2025",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: 10,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, // Keeps the row compact
-                  children: [
-                    Icon(
-                      Icons.visibility,
-                      size: 12,
-                    ),
-                    SizedBox(width: 3),
-                    Text(
-                      87.toString(),
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    // Adds spacing between text and icon
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
@@ -263,66 +91,152 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildCategoryGridView() {
-    return GridView.builder(
-      // physics: BouncingScrollPhysics(),
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      // padding: EdgeInsets.all(),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3, // Number of columns
-        mainAxisSpacing: 10, // Space between rows
-        crossAxisSpacing: 10, // Space between columns
-        childAspectRatio: 1 / 1,
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: bookCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(bookCategoryModelList[index], index);
+        },
       ),
-      itemCount: categoryModelList.length,
-      itemBuilder: (context, index) {
-        return _buildGridCategoryItem(categoryModelList[index]);
-      },
     );
   }
 
-  Widget _buildGridCategoryItem(CategoryModel book) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-        border: Border.all(
-          color: const Color.fromARGB(255, 229, 229, 229), // Border color
-          width: 1, // Border width
+  Widget _categoryCard(BookCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
       ),
-      child: InkWell(
-        onTap: () => _bookInCategory(book.name),
+    );
+  }
+
+  Widget _buildBookGridView() {
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 5,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Number of columns
+          mainAxisSpacing: 5, // Space between rows
+          crossAxisSpacing: 10, // Space between columns
+          childAspectRatio: 1 / 1.7,
+        ),
+        itemCount: bookModelList.length,
+        itemBuilder: (context, index) {
+          return _buildBookGridItem(bookModelList[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBookGridItem(BookModel book) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 5),
+      child: Card(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ), // Set border radius
-                child: Image.network(
-                  book.image,
-                  fit: BoxFit.cover,
-                  height: double.maxFinite,
+              child: InkWell(
+                onTap: () => _pageDetail(book),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ), // Set border radius
+                  child: Image.network(
+                    book.image, // Replace with your image path
+                    fit: BoxFit.cover,
+                    height: double.maxFinite,
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              book.name,
-              style: TextStyle(
-                fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                left: 8,
+                right: 8,
+              ), // Top margin of 20
+              child: Text(
+                book.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
-            // Adds spacing between text and icon
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.today,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        "20 មករា 2025",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    children: [
+                      Icon(
+                        Icons.visibility,
+                        size: 12,
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        87.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      // Adds spacing between text and icon
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

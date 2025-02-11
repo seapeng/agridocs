@@ -103,4 +103,19 @@ List<BookModel> bookModelList = [
         'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
     viewer: 100,
   ),
+  BookModel(
+    id: 6,
+    code: "006",
+    title: "សៀវភៅមគ្គុទេសក៍",
+    author: 'VANNA',
+    issued: DateTime.now(),
+    pages: 15,
+    isbn: '123456789',
+    issn: '987654321',
+    image:
+        'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
+    ebook:
+        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
+    viewer: 100,
+  ),
 ];
