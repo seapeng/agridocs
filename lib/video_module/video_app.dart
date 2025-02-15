@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'main_screen.dart';
-import 'main_splashscreen.dart';
+import 'package:provider/provider.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+import 'video_logic.dart';
+import 'video_screen.dart';
+import 'video_splashscreen.dart';
 
+class VideoApp extends StatefulWidget {
+  const VideoApp({super.key});
+
+  @override
+  State<VideoApp> createState() => _VideoAppState();
+}
+
+class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: _loadingScreen(),
-      debugShowCheckedModeBanner: false,
+      home: _buildLoadingScreen(),
       theme: ThemeData(
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
@@ -25,18 +32,18 @@ class MainApp extends StatelessWidget {
     );
   }
 
-  Future _loadData() async {
-    await Future.delayed(const Duration(seconds: 3));
+  Future _fetchData() async {
+    await context.read<VideoLogic>().read();
   }
 
-  Widget _loadingScreen() {
+  Widget _buildLoadingScreen() {
     return FutureBuilder(
-      future: _loadData(),
+      future: _fetchData(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return MainSplashscreen();
+        if (snapshot.connectionState == ConnectionState.done) {
+          return VideoScreen();
         } else {
-          return MainScreen();
+          return const VideoSplashscreen();
         }
       },
     );

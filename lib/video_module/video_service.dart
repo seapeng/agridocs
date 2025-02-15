@@ -1,42 +1,40 @@
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+
 import 'video_model.dart';
 
 class VideoService {
-  final String apiUrl = "https://agridocs-api.daovitou.net/mobile/v1/videos";
-
-  // Future<List<VideoModel>> fetchVideos() async {
-  //   final response = await http.get(Uri.parse(apiUrl));
-
-  //   if (response.statusCode == 200) {
-  //     // Parse the JSON response
-  //     List<dynamic> data = json.decode(response.body);
-  //     return data.map((json) => VideoModel.fromJson(json)).toList();
-  //   } else {
-  //     throw Exception('Failed to load videos');
-  //   }
-  // }
-
-  Future<List<VideoModel>> fetchVideos() async {
-    final response = await http.get(Uri.parse(apiUrl));
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => VideoModel.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load videos');
+  static Future read({
+    int page = 1,
+    required Function(Future<VideoModel>) onRes,
+    required Function(Object?) onError,
+  }) async {
+    String url =
+        "https://agridocs-api.daovitou.net/mobile/v1/videos?pages=$page&limit=6";
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      final data = compute(videoModelFromJson, response.body);
+      onRes(data);
+      onError(null);
+    } catch (e) {
+      onError(e);
     }
   }
 
-  // Future<List<VideoModel>> fetchVideos() async {
-  //   final response = await http.get(Uri.parse(apiUrl));
-
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> responseBody = json.decode(response.body);
-  //     List<dynamic> data = responseBody['data'];
-  //     return data.map((json) => VideoModel.fromJson(json)).toList();
-  //   } else {
-  //     throw Exception('Failed to load videos');
-  //   }
-  // }
+  static Future search({
+    required String videoTitle,
+    required Function(Future<VideoModel>) onRes,
+    required Function(Object?) onError,
+  }) async {
+    String url =
+        "https://agridocs-api.daovitou.net/mobile/v1/videos?search=$videoTitle";
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      final data = compute(videoModelFromJson, response.body);
+      onRes(data);
+      onError(null);
+    } catch (e) {
+      onError(e);
+    }
+  }
 }

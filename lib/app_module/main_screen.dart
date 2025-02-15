@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../book_module/book_screen.dart';
-import '../video_module/video_screen.dart';
+import '../video_module/video_provicer.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
       index: _currentIndex,
       children: [
         BookScreen(),
-        VideoScreen(),
+        videoProvider(),
       ],
     );
   }

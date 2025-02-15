@@ -3,17 +3,15 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:convert';
 
 class VideoDetail extends StatefulWidget {
+  final int id;
   final String title;
   final String author;
   final String youtubeId;
-  final DateTime published;
-  final int view;
   const VideoDetail({
+    required this.id,
     required this.title,
     required this.author,
     required this.youtubeId,
-    required this.published,
-    required this.view,
   });
 
   @override
@@ -61,8 +59,8 @@ class _VideoDetailState extends State<VideoDetail> {
         _buildVideoTitle(),
         Divider(),
         _buildDetailRow('ផលិតដោយ: ', widget.author),
-        _buildDetailRow('ថ្ងៃចុះផ្សាយ: ', widget.published.toString()),
-        _buildDetailRow('អ្នកទស្សនា: ', widget.view.toString()),
+        // _buildDetailRow('ថ្ងៃចុះផ្សាយ: ', widget.published.toString()),
+        // _buildDetailRow('អ្នកទស្សនា: ', widget.view.toString()),
       ],
     );
   }
