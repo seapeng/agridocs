@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'language_data.dart';
+import 'language_logic.dart';
+import 'theme_logic.dart';
 
-import '../book_module/book_screen.dart';
-import '../video_module/video_provicer.dart';
+import '../book_module/book_provider.dart';
+import '../video_module/video_provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -12,8 +16,13 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  Language _lang = Khmer();
+  int _langIndex = 0;
   @override
   Widget build(BuildContext context) {
+    _lang = context.watch<LanguageLogic>().lang;
+    _langIndex = context.watch<LanguageLogic>().langIndex;
+
     return Scaffold(
       key: _scaffoldKey,
       body: _buildBody(),
@@ -26,13 +35,14 @@ class _MainScreenState extends State<MainScreen> {
     return IndexedStack(
       index: _currentIndex,
       children: [
-        BookScreen(),
+        bookProvider(),
         videoProvider(),
       ],
     );
   }
 
   Widget _buildDrawer() {
+    ThemeMode mode = context.watch<ThemeLogic>().mode;
     return Drawer(
       child: ListView(
         children: [
@@ -64,15 +74,54 @@ class _MainScreenState extends State<MainScreen> {
               });
             },
           ),
-          ListTile(
+          ExpansionTile(
             leading: Icon(Icons.light_mode),
-            title: const Text('ពន្លឺ'),
-            onTap: () {
-              Navigator.of(context).pop();
-              setState(() {
-                _currentIndex = 1;
-              });
-            },
+            title: Text(_lang.themeColor),
+            children: [
+              ListTile(
+                leading: Icon(Icons.phone_android),
+                title: Text(_lang.toSystemMode),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.light_mode),
+                title: Text(_lang.toLightMode),
+                onTap: () {
+                  context.read<ThemeLogic>().changeToLight();
+                },
+                trailing: mode == ThemeMode.light ? Icon(Icons.check) : null,
+              ),
+              ListTile(
+                leading: Icon(Icons.dark_mode),
+                title: Text(_lang.toDarkMode),
+                onTap: () {
+                  context.read<ThemeLogic>().changeToDark();
+                },
+                trailing: mode == ThemeMode.dark ? Icon(Icons.check) : null,
+              ),
+            ],
+          ),
+          ExpansionTile(
+            leading: Icon(Icons.language),
+            title: Text(_lang.language),
+            children: [
+              ListTile(
+                leading: Text("ខ្មែរ"),
+                title: Text("ប្តូរទៅភាសារខ្មែរ"),
+                onTap: () {
+                  context.read<LanguageLogic>().changToKhmer();
+                },
+                trailing: _langIndex == 0 ? Icon(Icons.check) : null,
+              ),
+              ListTile(
+                leading: Text("EN"),
+                title: Text("Change to English"),
+                onTap: () {
+                  context.read<LanguageLogic>().changeToEnglish();
+                },
+                trailing: _langIndex == 1 ? Icon(Icons.check) : null,
+              ),
+            ],
           ),
         ],
       ),

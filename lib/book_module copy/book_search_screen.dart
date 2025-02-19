@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class VideoSearchScreen extends StatefulWidget {
-  const VideoSearchScreen({super.key});
+class BookSearchScreen extends StatefulWidget {
+  const BookSearchScreen({super.key});
 
   @override
-  State<VideoSearchScreen> createState() => _VideoSearchScreenState();
+  State<BookSearchScreen> createState() => _BookSearchScreenState();
 }
 
-class _VideoSearchScreenState extends State<VideoSearchScreen> {
+class _BookSearchScreenState extends State<BookSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +32,7 @@ class _VideoSearchScreenState extends State<VideoSearchScreen> {
       ),
       child: TextField(
         decoration: InputDecoration(
-          hintText: 'ស្វែងរកវីដេអូ',
+          hintText: 'ស្វែងរកសៀវភៅ',
           border: InputBorder.none,
           suffixIcon: IconButton(
             icon: Icon(

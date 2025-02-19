@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'video_model.dart';
-import 'video_service.dart';
+import 'book_model.dart';
+import 'book_service.dart';
 
-class VideoLogic extends ChangeNotifier {
-  List<Videos> _records = [];
-  List<Videos> get records => _records;
+class BookLogic extends ChangeNotifier {
+  List<Books> _records = [];
+  List<Books> get records => _records;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -22,14 +22,11 @@ class VideoLogic extends ChangeNotifier {
 
   Future readAppend() async {
     _page++;
-    await VideoService.read(
+    await BookService.read(
       page: _page,
       onRes: (value) async {
         final data = await value;
-        if (data.data.allowNext == true) {
-          _records += data.data.videos;
-          debugPrint("Total records: ${_records.length}");
-        }
+        _records += data.data.books;
         _loading = false;
         debugPrint("sdfhdsjfdsjfbdsjfbd");
 
@@ -44,10 +41,10 @@ class VideoLogic extends ChangeNotifier {
   }
 
   Future read() async {
-    await VideoService.read(
+    await BookService.read(
       onRes: (value) async {
         final data = await value;
-        _records = data.data.videos;
+        _records = data.data.books;
         _loading = false;
         notifyListeners();
       },

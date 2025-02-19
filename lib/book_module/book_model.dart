@@ -1,121 +1,198 @@
+import 'dart:convert';
+
+BookModel bookModelFromJson(String str) => BookModel.fromJson(json.decode(str));
+String bookModelToJson(BookModel data) => json.encode(data.toJson());
+
 class BookModel {
-  int id = 0;
-  String code = "no code";
-  String title = "no title";
-  String author = "no author";
-  DateTime issued;
-  int pages = 0;
-  String isbn = "no isbn";
-  String issn = "no issn";
-  String image = "no image";
-  String ebook = "no ebook";
-  int viewer = 0;
+  late bool success;
+  late String message;
+  late Data data;
 
   BookModel({
-    this.id = 0,
-    this.code = "no code",
-    this.title = "no title",
-    this.author = "no author",
-    required this.issued,
-    this.pages = 0,
-    this.isbn = "no isbn",
-    this.issn = "no issn",
-    this.image = "no image",
-    this.ebook = "no ebook",
-    this.viewer = 0,
+    required this.success,
+    required this.message,
+    required this.data,
   });
+
+  BookModel.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    if (success) {
+      message = json['message'];
+      data = Data.fromJson(json['data']);
+    } else {
+      message = json['message'];
+      data = Data(
+        books: [],
+        totalRecords: 0,
+        totalPages: 0,
+        currentPage: 0,
+        allowNext: false,
+        allowPrevious: false,
+        nextPage: 0,
+        previousPage: 0,
+      );
+    }
+  }
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "message": message,
+        "data": data.toJson(),
+      };
 }
 
-List<BookModel> bookModelList = [
-  BookModel(
-    id: 1,
-    code: '001',
-    title:
-        "សៀវភៅណែនាំ​ស្ដីពី​ ការ​ចិញ្ចឹម​មាន់ពូជ​ក្នុងស្រុក​សម្រាប់​ភ្ញាស់​យក​កូន​ យក​សាច់​ជា​លក្ខណៈ​ពាណិជ្ជកម្ម​",
-    author: 'នាយកដ្ឋាន​ផ្សព្វផ្សាយកសិកម្ម​ រុក្ខាប្រមាញ់​ និងនេសាទ',
-    issued: DateTime.now(),
-    pages: 31,
-    isbn: 'N/A',
-    issn: 'N/A',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/f7739d5e331348ff47b72e52f63e35661705044202.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/f9bb05bf6cfbf8fe8b2223623d5458be1705047288.pdf',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 2,
-    code: '002',
-    title: "ជំងឺដុំពកស្បែកគោ",
-    author: 'អគ្គនាយកដ្ឋានសុខភាពសត្វ និងផលិតកម្មសត្វ',
-    issued: DateTime.now(),
-    pages: 2,
-    isbn: 'N/A',
-    issn: 'N/A',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/dcbdfd74dbc950128110851f2a8689c21716804420.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/b9cd2dd0610f3ffbe49de52d74e6c9a61716804420.pdf',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 3,
-    code: "003",
-    title: "សៀវភៅមគ្គុទេសក៍",
-    author: 'VANNA',
-    issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 4,
-    code: "004",
-    title: "ខ្សែសង្វាក់ផលិតកម្មដំណាំស្វាយចន្ទី",
-    author: 'VANNA',
-    issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/536dc300219cbbf7980f4ab0b63e2d111714124268.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 5,
-    code: "005",
-    title: "សៀវភៅកសិករ កម្រងបច្ចេកទេសកសិកម្មល្អៗ ធន់នឹងអាកាសធាតុប្រែប្រួល",
-    author: 'VANNA',
-    issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/e06d061a77a7bde916b8a91163029d411706973135.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
-    viewer: 100,
-  ),
-  BookModel(
-    id: 6,
-    code: "006",
-    title: "សៀវភៅមគ្គុទេសក៍",
-    author: 'VANNA',
-    issued: DateTime.now(),
-    pages: 15,
-    isbn: '123456789',
-    issn: '987654321',
-    image:
-        'https://elibrary.maff.gov.kh/assets/images/books/486dcd945440099c51851bcb3ba3eb1f1714104611.jpg',
-    ebook:
-        'https://elibrary.maff.gov.kh/assets/files/books/ee26908bf9629eeb4b37dac350f4754a1717497909blob.pdf',
-    viewer: 100,
-  ),
-];
+class Data {
+  late List<Books> books;
+  late int totalRecords;
+  late int totalPages;
+  late int currentPage;
+  late bool allowNext;
+  late bool allowPrevious;
+  late int nextPage;
+  late int previousPage;
+
+  Data({
+    required this.books,
+    required this.totalRecords,
+    required this.totalPages,
+    required this.currentPage,
+    required this.allowNext,
+    required this.allowPrevious,
+    required this.nextPage,
+    required this.previousPage,
+  });
+
+  Data.fromJson(Map<String, dynamic> json) {
+    books = List<Books>.from(json['books'].map((x) => Books.fromJson(x)));
+    totalRecords = json['totalRecords'];
+    totalPages = json['totalPages'];
+    currentPage = json['currentPage'];
+    allowNext = json['allowNext'];
+    allowPrevious = json['allowPrevious'];
+    nextPage = json['nextPage'];
+    previousPage = json['previousPage'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        "books": List<dynamic>.from(books.map((x) => x.toJson())),
+        "totalRecords": totalRecords,
+        "totalPages": totalPages,
+        "currentPage": currentPage,
+        "allowNext": allowNext,
+        "allowPrevious": allowPrevious,
+        "nextPage": nextPage,
+        "previousPage": previousPage,
+      };
+}
+
+class Books {
+  int id;
+  String code;
+  String title;
+  String author;
+  DateTime issued;
+  int page;
+  String isbn;
+  String issn;
+  String image;
+  int viewer;
+  String ebook;
+  int bookCategoryId;
+  int languageId;
+  Language language;
+  BookCategory bookCategory;
+
+  Books({
+    required this.id,
+    required this.code,
+    required this.title,
+    required this.author,
+    required this.issued,
+    required this.page,
+    required this.isbn,
+    required this.issn,
+    required this.image,
+    required this.viewer,
+    required this.ebook,
+    required this.bookCategoryId,
+    required this.languageId,
+    required this.language,
+    required this.bookCategory,
+  });
+
+  factory Books.fromJson(Map<String, dynamic> json) => Books(
+        id: json["id"] ?? 0,
+        code: json["code"],
+        title: json["title"],
+        author: json["author"],
+        issued: DateTime.parse(json['issued']),
+        page: json['pages'] ?? 0,
+        isbn: json["isbn"],
+        issn: json["issn"],
+        image: json["image"],
+        viewer: json["viewer"] ?? 0,
+        ebook: json["ebook"],
+        bookCategoryId: json["bookCategoryId"],
+        languageId: json["languageId"],
+        language: Language.fromJson(json["language"]),
+        bookCategory: BookCategory.fromJson(json["bookCategory"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "code": code,
+        "title": title,
+        "author": author,
+        "issued": issued.toString(),
+        "page": page.toString(),
+        "isbn": isbn,
+        "issn": issn,
+        "image": image,
+        "viewer": viewer.toString(),
+        "ebook": ebook,
+        "bookCategoryId": bookCategoryId,
+        "languageId": languageId,
+        "language": language.toJson(),
+        "bookCategory": bookCategory.toJson(),
+      };
+}
+
+class Language {
+  late int id;
+  late String name;
+
+  Language({
+    required this.id,
+    required this.name,
+  });
+
+  Language.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
+}
+
+class BookCategory {
+  late int id;
+  late String name;
+
+  BookCategory({
+    required this.id,
+    required this.name,
+  });
+
+  BookCategory.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
+}

@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'main_screen.dart';
 import 'main_splashscreen.dart';
+import 'theme_logic.dart';
+import 'language_logic.dart';
+
+Widget providerMainApp() {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ThemeLogic()),
+      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+    ],
+    child: MainApp(),
+  );
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
