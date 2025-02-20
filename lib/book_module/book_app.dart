@@ -16,6 +16,7 @@ class _BookAppState extends State<BookApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: _buildLoadingScreen(),
       theme: ThemeData(
         fontFamily: 'Battambang',
@@ -23,11 +24,6 @@ class _BookAppState extends State<BookApp> {
             backgroundColor: const Color.fromARGB(255, 33, 112, 35),
             foregroundColor: Colors.white //here you can give the text color
             ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
-        ),
       ),
     );
   }
@@ -43,7 +39,7 @@ class _BookAppState extends State<BookApp> {
         if (snapshot.connectionState == ConnectionState.done) {
           return BookScreen();
         } else {
-          return const VideoSplashscreen();
+          return const BookSplashscreen();
         }
       },
     );

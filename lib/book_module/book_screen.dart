@@ -34,7 +34,6 @@ class _VideoScreenState extends State<BookScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
-        debugPrint("Reached the bottom");
         context.read<BookLogic>().readAppend();
       }
     });
@@ -51,7 +50,7 @@ class _VideoScreenState extends State<BookScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButton: _showUpButton ? _buildUpButton() : null,
+      floatingActionButton: _showUpButton == true ? _buildUpButton() : null,
     );
   }
 
@@ -96,12 +95,7 @@ class _VideoScreenState extends State<BookScreen> {
 
   Widget _buildBody() {
     Object? error = context.watch<BookLogic>().error;
-    bool loading = context.watch<BookLogic>().loading;
     List<Books> records = context.watch<BookLogic>().records;
-
-    if (loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
     if (error != null) {
       return _buildErrorMessage(error);
@@ -130,20 +124,22 @@ class _VideoScreenState extends State<BookScreen> {
     );
   }
 
-  Widget _buildListView(List<Books> items) {
+  Widget _buildListView(List<Books> books) {
+    bool loading = context.watch<BookLogic>().loading;
     return RefreshIndicator(
       onRefresh: () async {},
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         controller: _scroller,
-        itemCount: items.length + 1,
+        itemCount: books.length + 1,
         itemBuilder: (context, index) {
-          if (index < items.length) {
-            return _buildListItem(items[index]);
+          if (index < books.length) {
+            return _buildListItem(books[index]);
           } else {
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
+              child: loading ? const CircularProgressIndicator() : null,
             );
           }
         },
@@ -152,13 +148,6 @@ class _VideoScreenState extends State<BookScreen> {
   }
 
   Widget _buildListItem(Books book) {
-    // return Card(
-    //   child: ListTile(
-    //     title: Image.network(
-    //         "https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg"),
-    //     subtitle: Text(item.title),
-    //   ),
-    // );
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Card(

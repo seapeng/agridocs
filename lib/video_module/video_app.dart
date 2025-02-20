@@ -23,11 +23,6 @@ class _VideoAppState extends State<VideoApp> {
             backgroundColor: const Color.fromARGB(255, 33, 112, 35),
             foregroundColor: Colors.white //here you can give the text color
             ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
-        ),
       ),
     );
   }

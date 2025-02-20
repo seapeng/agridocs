@@ -7,7 +7,7 @@ class BookLogic extends ChangeNotifier {
   List<Books> _records = [];
   List<Books> get records => _records;
 
-  bool _loading = false;
+  bool _loading = true;
   bool get loading => _loading;
 
   Object? _error;
@@ -27,14 +27,15 @@ class BookLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records += data.data.books;
-        _loading = false;
-        debugPrint("sdfhdsjfdsjfbdsjfbd");
-
+        if (data.data.totalRecords == _records.length) {
+          _loading = false;
+        } else {
+          _loading = true;
+        }
         notifyListeners();
       },
       onError: (err) {
         _error = err;
-        _loading = false;
         notifyListeners();
       },
     );
@@ -45,12 +46,15 @@ class BookLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records = data.data.books;
-        _loading = false;
+        if (data.data.totalRecords == _records.length) {
+          _loading = false;
+        } else {
+          _loading = true;
+        }
         notifyListeners();
       },
       onError: (err) {
         _error = err;
-        _loading = false;
         notifyListeners();
       },
     );

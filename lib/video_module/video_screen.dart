@@ -34,7 +34,6 @@ class _VideoScreenState extends State<VideoScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
-        debugPrint("Reached the bottom");
         context.read<VideoLogic>().readAppend();
       }
     });
@@ -96,12 +95,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildBody() {
     Object? error = context.watch<VideoLogic>().error;
-    bool loading = context.watch<VideoLogic>().loading;
     List<Videos> records = context.watch<VideoLogic>().records;
-
-    if (loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
     if (error != null) {
       return _buildErrorMessage(error);
@@ -131,9 +125,11 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildListView(List<Videos> items) {
+    bool loading = context.watch<VideoLogic>().loading;
     return RefreshIndicator(
       onRefresh: () async {},
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         controller: _scroller,
         itemCount: items.length + 1,
         itemBuilder: (context, index) {
@@ -143,7 +139,7 @@ class _VideoScreenState extends State<VideoScreen> {
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
+              child: loading ? const CircularProgressIndicator() : null,
             );
           }
         },
@@ -152,13 +148,6 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildListItem(Videos video) {
-    // return Card(
-    //   child: ListTile(
-    //     title: Image.network(
-    //         "https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg"),
-    //     subtitle: Text(item.title),
-    //   ),
-    // );
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Card(

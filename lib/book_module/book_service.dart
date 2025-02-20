@@ -9,12 +9,13 @@ class BookService {
     required Function(Future<BookModel>) onRes,
     required Function(Object?) onError,
   }) async {
-    String url = "https://agridocs-api.daovitou.net/mobile/v1/books";
+    String url =
+        "https://agridocs-api.daovitou.net/mobile/v1/books?pages=$page&limit=6";
     try {
       http.Response response = await http.get(Uri.parse(url));
       final data = compute(bookModelFromJson, response.body);
       onRes(data);
-      onError(null);
+      // onError(null);
     } catch (e) {
       onError(e);
     }

@@ -56,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             leading: Icon(Icons.perm_phone_msg),
-            title: const Text('ទំនាក់ទំនង'),
+            title: Text(_lang.contact),
             onTap: () {
               Navigator.of(context).pop();
               setState(() {
@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ListTile(
             leading: Icon(Icons.description),
-            title: const Text('អំពីយើង'),
+            title: Text(_lang.about),
             onTap: () {
               Navigator.of(context).pop();
               setState(() {
@@ -107,7 +107,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 leading: Text("ខ្មែរ"),
-                title: Text("ប្តូរទៅភាសារខ្មែរ"),
+                title: Text(_lang.changeToKhmer),
                 onTap: () {
                   context.read<LanguageLogic>().changToKhmer();
                 },
@@ -115,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               ListTile(
                 leading: Text("EN"),
-                title: Text("Change to English"),
+                title: Text(_lang.changeToEnglish),
                 onTap: () {
                   context.read<LanguageLogic>().changeToEnglish();
                 },
@@ -143,21 +143,18 @@ class _MainScreenState extends State<MainScreen> {
           });
         }
       },
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.grey,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.folder),
-          label: 'ឯកសារ',
+          label: _lang.books,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.smart_display),
-          label: 'វីដេអូ',
+          label: _lang.videos,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.menu),
-          label: 'បន្ថែម',
+          label: _lang.more,
         ),
       ],
     );

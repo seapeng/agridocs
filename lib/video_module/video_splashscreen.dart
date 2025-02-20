@@ -7,7 +7,7 @@ class VideoSplashscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Icon(Icons.movie, size: 100),
+        child: CircularProgressIndicator(),
       ),
     );
   }

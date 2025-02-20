@@ -6,7 +6,10 @@ class ReadBook extends StatefulWidget {
   final String title;
   final String ebook;
 
-  const ReadBook({required this.title, required this.ebook});
+  const ReadBook({
+    required this.title,
+    required this.ebook,
+  });
 
   @override
   State<ReadBook> createState() => _ReadBookState();

@@ -7,7 +7,7 @@ class VideoLogic extends ChangeNotifier {
   List<Videos> _records = [];
   List<Videos> get records => _records;
 
-  bool _loading = false;
+  bool _loading = true;
   bool get loading => _loading;
 
   Object? _error;
@@ -26,18 +26,16 @@ class VideoLogic extends ChangeNotifier {
       page: _page,
       onRes: (value) async {
         final data = await value;
-        if (data.data.allowNext == true) {
-          _records += data.data.videos;
-          debugPrint("Total records: ${_records.length}");
+        _records += data.data.videos;
+        if (data.data.totalRecords == _records.length) {
+          _loading = false;
+        } else {
+          _loading = true;
         }
-        _loading = false;
-        debugPrint("sdfhdsjfdsjfbdsjfbd");
-
         notifyListeners();
       },
       onError: (err) {
         _error = err;
-        _loading = false;
         notifyListeners();
       },
     );
@@ -48,12 +46,15 @@ class VideoLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records = data.data.videos;
-        _loading = false;
+        if (data.data.totalRecords == _records.length) {
+          _loading = false;
+        } else {
+          _loading = true;
+        }
         notifyListeners();
       },
       onError: (err) {
         _error = err;
-        _loading = false;
         notifyListeners();
       },
     );
