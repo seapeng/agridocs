@@ -126,7 +126,7 @@ class Books {
         title: json["title"],
         author: json["author"],
         issued: DateTime.parse(json['issued']),
-        page: json['pages'] ?? 0,
+        page: json['page'] ?? 0,
         isbn: json["isbn"],
         issn: json["issn"],
         image: json["image"],

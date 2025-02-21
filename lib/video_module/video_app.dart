@@ -16,6 +16,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: _buildLoadingScreen(),
       theme: ThemeData(
         fontFamily: 'Battambang',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class VideoDetail extends StatefulWidget {
@@ -7,11 +8,18 @@ class VideoDetail extends StatefulWidget {
   final String title;
   final String author;
   final String youtubeId;
+  final DateTime published;
+  final String language;
+  final String videoCateogy;
+
   const VideoDetail({
     required this.id,
     required this.title,
     required this.author,
     required this.youtubeId,
+    required this.published,
+    required this.language,
+    required this.videoCateogy,
   });
 
   @override
@@ -59,7 +67,12 @@ class _VideoDetailState extends State<VideoDetail> {
         _buildVideoTitle(),
         Divider(),
         _buildDetailRow('ផលិតដោយ: ', widget.author),
-        // _buildDetailRow('ថ្ងៃចុះផ្សាយ: ', widget.published.toString()),
+        _buildDetailRow(
+          'ថ្ងៃផលិត: ',
+          DateFormat('dd-MM-yyyy').format(widget.published),
+        ),
+        _buildDetailRow('ភាសា: ', widget.language),
+        _buildDetailRow('ប្រភេទវីដេអូ: ', widget.videoCateogy),
         // _buildDetailRow('អ្នកទស្សនា: ', widget.view.toString()),
       ],
     );
@@ -94,10 +107,12 @@ class _VideoDetailState extends State<VideoDetail> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 16,
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
           ),
         ],

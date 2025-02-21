@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'read_book.dart';
 
 class BookDetail extends StatefulWidget {
@@ -11,6 +12,8 @@ class BookDetail extends StatefulWidget {
   final int page;
   final String image;
   final String ebook;
+  final String language;
+  final String bookCategory;
 
   const BookDetail({
     required this.id,
@@ -21,6 +24,8 @@ class BookDetail extends StatefulWidget {
     required this.page,
     required this.image,
     required this.ebook,
+    required this.language,
+    required this.bookCategory,
   });
 
   @override
@@ -53,10 +58,11 @@ class _BookDetailState extends State<BookDetail> {
           _buildBookTitle(),
           _buildReadButton(),
           _buildDetailRow('អ្នកនិពន្ធ: ', widget.author),
-          _buildDetailRow('ថ្ងៃបោះពុម្ភផ្សាយ: ', widget.issued.toString()),
-          _buildDetailRow('ភាសា: ', 'ខ្មែរ'),
+          _buildDetailRow('ថ្ងៃបោះពុម្ភផ្សាយ: ',
+              DateFormat('dd-MM-yyyy').format(widget.issued)),
+          _buildDetailRow('ភាសា: ', widget.language),
           _buildDetailRow('ចំនួនទំព័រ: ', widget.page.toString()),
-          _buildDetailRow('ប្រភេទសៀវភៅ: ', 'កសិកម្ម'),
+          _buildDetailRow('ប្រភេទសៀវភៅ: ', widget.bookCategory),
         ],
       ),
     );

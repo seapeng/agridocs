@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import 'book_logic.dart';
 import 'book_model.dart';
@@ -139,7 +140,9 @@ class _VideoScreenState extends State<BookScreen> {
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: loading ? const CircularProgressIndicator() : null,
+              child: loading
+                  ? const CircularProgressIndicator()
+                  : Text("No more data"),
             );
           }
         },
@@ -206,7 +209,7 @@ class _VideoScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        "20 មករា 2025",
+                        DateFormat('dd-MM-yyyy').format(book.issued),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -221,7 +224,7 @@ class _VideoScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        343.toString(),
+                        book.viewer.toString(),
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -250,6 +253,8 @@ class _VideoScreenState extends State<BookScreen> {
           page: book.page,
           image: book.image,
           ebook: book.ebook,
+          language: book.language.name,
+          bookCategory: book.bookCategory.name,
         ),
       ),
     );

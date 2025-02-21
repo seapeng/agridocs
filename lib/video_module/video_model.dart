@@ -90,7 +90,7 @@ class Videos {
   int id;
   String title;
   String youtubeId;
-  String published;
+  DateTime published;
   String author;
   int videoCategoryId;
   int languageId;
@@ -113,7 +113,7 @@ class Videos {
         id: json["id"],
         title: json["title"],
         youtubeId: json["youtubeId"],
-        published: json["published"],
+        published: DateTime.parse(json['published']),
         author: json["author"],
         videoCategoryId: json["videoCategoryId"],
         languageId: json["languageId"],

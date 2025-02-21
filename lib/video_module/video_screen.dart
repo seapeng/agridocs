@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import 'video_logic.dart';
 import 'video_model.dart';
@@ -139,7 +140,9 @@ class _VideoScreenState extends State<VideoScreen> {
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: loading ? const CircularProgressIndicator() : null,
+              child: loading
+                  ? const CircularProgressIndicator()
+                  : Text("No more data"),
             );
           }
         },
@@ -206,7 +209,7 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        "20 មករា 2025",
+                        DateFormat('dd-MM-yyyy').format(video.published),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -246,6 +249,9 @@ class _VideoScreenState extends State<VideoScreen> {
           title: video.title,
           youtubeId: video.youtubeId,
           author: video.author,
+          published: video.published,
+          language: video.language.name,
+          videoCateogy: video.videoCategory.name,
         ),
       ),
     );
