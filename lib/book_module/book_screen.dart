@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import '../app_module/language_data.dart';
+import '../app_module/language_logic.dart';
 
 import 'book_logic.dart';
 import 'book_model.dart';
@@ -187,7 +189,6 @@ class _BookScreenState extends State<BookScreen> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
                   ),
                 ),
               ),
@@ -201,7 +202,7 @@ class _BookScreenState extends State<BookScreen> {
               child: Row(
                 children: <Widget>[
                   Row(
-                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.today,
@@ -216,7 +217,7 @@ class _BookScreenState extends State<BookScreen> {
                   ),
                   SizedBox(width: 20),
                   Row(
-                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.visibility,

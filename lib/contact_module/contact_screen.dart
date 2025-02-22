@@ -52,7 +52,9 @@ class _ContactScreenState extends State<ContactScreen> {
           SizedBox(height: 10),
           Text(
             "If you have any questions, feel free to reach out to us using the details below.",
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
           SizedBox(height: 20),
           Card(

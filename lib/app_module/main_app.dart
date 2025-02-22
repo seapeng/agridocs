@@ -19,14 +19,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode mode = context.watch<ThemeLogic>().mode;
     return MaterialApp(
       home: MainScreen(),
       debugShowCheckedModeBanner: false,
+      themeMode: mode,
       theme: ThemeData(
+        brightness: Brightness.light,
         fontFamily: 'Battambang',
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Battambang',
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
         ),
       ),

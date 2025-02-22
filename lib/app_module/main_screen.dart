@@ -86,7 +86,10 @@ class _MainScreenState extends State<MainScreen> {
               ListTile(
                 leading: Icon(Icons.phone_android),
                 title: Text(_lang.toSystemMode),
-                onTap: () {},
+                onTap: () {
+                  context.read<ThemeLogic>().changeToSystem();
+                },
+                trailing: mode == ThemeMode.system ? Icon(Icons.check) : null,
               ),
               ListTile(
                 leading: Icon(Icons.light_mode),

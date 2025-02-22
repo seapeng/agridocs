@@ -187,7 +187,6 @@ class _VideoScreenState extends State<VideoScreen> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
                   ),
                 ),
               ),
