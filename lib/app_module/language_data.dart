@@ -5,8 +5,8 @@ class Language {
   String get toLightMode => "To Light Mode";
   String get toDarkMode => "To Dark Mode";
   String get language => "Language";
-  String get changeToKhmer => "ប្តូរទៅភាសាខ្មែរ";
-  String get changeToEnglish => "Change To English";
+  String get changeToKhmer => "ភាសាខ្មែរ";
+  String get changeToEnglish => "English";
   String get documents => "Documents";
   String get videos => "Videos";
   String get books => "Books";
@@ -25,8 +25,8 @@ class Khmer implements Language {
   String get toLightMode => "ប្តូរទៅភ្លឺ";
   String get toDarkMode => "ប្តូរទៅងងឹត";
   String get language => "ភាសា";
-  String get changeToKhmer => "ប្តូរទៅភាសាខ្មែរ";
-  String get changeToEnglish => "Change To English";
+  String get changeToKhmer => "ភាសាខ្មែរ";
+  String get changeToEnglish => "English";
   String get documents => "ឯកសារ";
   String get videos => "វីដេអូ";
   String get books => "សៀវភៅ";
@@ -34,6 +34,6 @@ class Khmer implements Language {
   String get search => "ស្វែងរក";
   String get searchHint => "ស្វែងរកនៅទីនេះ...";
   String get contact => "ទំនាក់ទំនង";
-  String get about => "អំពីយើង";
+  String get about => "អំពីបណ្ណាល័យ";
   String get setting => "ការកំណត់";
 }

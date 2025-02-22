@@ -12,10 +12,10 @@ class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
 
   @override
-  State<BookScreen> createState() => _VideoScreenState();
+  State<BookScreen> createState() => _BookScreenState();
 }
 
-class _VideoScreenState extends State<BookScreen> {
+class _BookScreenState extends State<BookScreen> {
   final _scroller = ScrollController();
   bool _showUpButton = false;
 
@@ -64,7 +64,7 @@ class _VideoScreenState extends State<BookScreen> {
           onPressed: () {
             Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => const VideoSearchScreen(),
+                builder: (context) => const BookSearchScreen(),
               ),
             );
           },

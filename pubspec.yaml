@@ -89,6 +89,9 @@ flutter:
         - asset: assets/fonts/Battambang-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+    - family: Moul
+      fonts:
+        - asset: assets/fonts/Moul-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

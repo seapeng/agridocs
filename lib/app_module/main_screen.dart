@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'language_data.dart';
 import 'language_logic.dart';
 import 'theme_logic.dart';
 
 import '../book_module/book_provider.dart';
 import '../video_module/video_provider.dart';
+import '../about_module/about_app.dart';
+import '../contact_module/contact_app.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -55,23 +58,25 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.perm_phone_msg),
-            title: Text(_lang.contact),
-            onTap: () {
-              Navigator.of(context).pop();
-              setState(() {
-                _currentIndex = 0;
-              });
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.description),
             title: Text(_lang.about),
             onTap: () {
-              Navigator.of(context).pop();
-              setState(() {
-                _currentIndex = 1;
-              });
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => const AboutApp(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.perm_phone_msg),
+            title: Text(_lang.contact),
+            onTap: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => const ContactApp(),
+                ),
+              );
             },
           ),
           ExpansionTile(
