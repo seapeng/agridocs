@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'language_data.dart';
+import 'translate_data.dart';
 
-class LanguageLogic extends ChangeNotifier {
-  Language _lang = Khmer();
-  Language get lang => _lang;
+class TranslateLogic extends ChangeNotifier {
+  Translate _lang = Khmer();
+  Translate get lang => _lang;
   int _langIndex = 0;
   int get langIndex => _langIndex;
 
@@ -14,7 +14,7 @@ class LanguageLogic extends ChangeNotifier {
   }
 
   void changeToEnglish() {
-    _lang = Language();
+    _lang = Translate();
     _langIndex = 1;
     notifyListeners();
   }

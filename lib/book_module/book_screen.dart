@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../app_module/language_data.dart';
-import '../app_module/language_logic.dart';
+import '../app_module/translate_data.dart';
+import '../app_module/translate_logic.dart';
 
 import 'book_logic.dart';
 import 'book_model.dart';
 import 'book_search_screen.dart';
 import 'book_detail.dart';
+import 'book_category_model.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -18,6 +19,7 @@ class BookScreen extends StatefulWidget {
 }
 
 class _BookScreenState extends State<BookScreen> {
+  Translate _lang = Khmer();
   final _scroller = ScrollController();
   bool _showUpButton = false;
 
@@ -50,6 +52,7 @@ class _BookScreenState extends State<BookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _lang = context.watch<TranslateLogic>().lang;
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
@@ -60,7 +63,7 @@ class _BookScreenState extends State<BookScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       leading: _buildLeadingLogo(),
-      title: const Text("បណ្ណាល័យកសិកម្ម"),
+      title: Text(_lang.appName),
       actions: [
         IconButton(
           onPressed: () {
@@ -129,26 +132,33 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildListView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        controller: _scroller,
-        itemCount: books.length + 1,
-        itemBuilder: (context, index) {
-          if (index < books.length) {
-            return _buildListItem(books[index]);
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: loading
-                  ? const CircularProgressIndicator()
-                  : Text("No more data"),
-            );
-          }
-        },
-      ),
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              controller: _scroller,
+              itemCount: books.length + 1,
+              itemBuilder: (context, index) {
+                if (index < books.length) {
+                  return _buildListItem(books[index]);
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: loading
+                        ? const CircularProgressIndicator()
+                        : Text("No more data"),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -256,6 +266,48 @@ class _BookScreenState extends State<BookScreen> {
           ebook: book.ebook,
           language: book.language.name,
           bookCategory: book.bookCategory.name,
+        ),
+      ),
+    );
+  }
+
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: bookCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(bookCategoryModelList[index], index);
+        },
+      ),
+    );
+  }
+
+  Widget _categoryCard(BookCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
       ),
     );

@@ -5,19 +5,20 @@ import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
-import 'video_logic.dart';
-import 'video_model.dart';
-import 'video_search_screen.dart';
-import 'video_detail.dart';
+import 'book_logic.dart';
+import 'book_model.dart';
+import 'book_search_screen.dart';
+import 'book_detail.dart';
+import 'book_category_model.dart';
 
-class VideoScreen extends StatefulWidget {
-  const VideoScreen({super.key});
+class BookCategoryScreen extends StatefulWidget {
+  const BookCategoryScreen({super.key});
 
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  State<BookCategoryScreen> createState() => _BookCategoryScreenState();
 }
 
-class _VideoScreenState extends State<VideoScreen> {
+class _BookCategoryScreenState extends State<BookCategoryScreen> {
   Translate _lang = Khmer();
   final _scroller = ScrollController();
   bool _showUpButton = false;
@@ -38,7 +39,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
-        context.read<VideoLogic>().readAppend();
+        context.read<BookLogic>().readAppend();
       }
     });
   }
@@ -55,7 +56,7 @@ class _VideoScreenState extends State<VideoScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButton: _showUpButton ? _buildUpButton() : null,
+      floatingActionButton: _showUpButton == true ? _buildUpButton() : null,
     );
   }
 
@@ -68,7 +69,7 @@ class _VideoScreenState extends State<VideoScreen> {
           onPressed: () {
             Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => const VideoSearchScreen(),
+                builder: (context) => const BookSearchScreen(),
               ),
             );
           },
@@ -99,8 +100,8 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildBody() {
-    Object? error = context.watch<VideoLogic>().error;
-    List<Videos> records = context.watch<VideoLogic>().records;
+    Object? error = context.watch<BookLogic>().error;
+    List<Books> records = context.watch<BookLogic>().records;
 
     if (error != null) {
       return _buildErrorMessage(error);
@@ -119,8 +120,8 @@ class _VideoScreenState extends State<VideoScreen> {
           const Text("Something went wrong"),
           ElevatedButton(
             onPressed: () {
-              context.read<VideoLogic>().setLoading();
-              context.read<VideoLogic>().read();
+              context.read<BookLogic>().setLoading();
+              context.read<BookLogic>().read();
             },
             child: const Text("RETRY"),
           ),
@@ -129,39 +130,46 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-  Widget _buildListView(List<Videos> items) {
-    bool loading = context.watch<VideoLogic>().loading;
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        controller: _scroller,
-        itemCount: items.length + 1,
-        itemBuilder: (context, index) {
-          if (index < items.length) {
-            return _buildListItem(items[index]);
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: loading
-                  ? const CircularProgressIndicator()
-                  : Text(_lang.noMoreData),
-            );
-          }
-        },
-      ),
+  Widget _buildListView(List<Books> books) {
+    bool loading = context.watch<BookLogic>().loading;
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              controller: _scroller,
+              itemCount: books.length + 1,
+              itemBuilder: (context, index) {
+                if (index < books.length) {
+                  return _buildListItem(books[index]);
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: loading
+                        ? const CircularProgressIndicator()
+                        : Text("No more data"),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildListItem(Videos video) {
+  Widget _buildListItem(Books book) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Card(
         child: Column(
           children: [
             InkWell(
-              onTap: () => _pageDetail(video),
+              onTap: () => _pageDetail(book),
               child: SizedBox(
                 width: double.infinity,
                 child: ClipRRect(
@@ -170,7 +178,7 @@ class _VideoScreenState extends State<VideoScreen> {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    "https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg",
+                    book.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -186,7 +194,7 @@ class _VideoScreenState extends State<VideoScreen> {
                   bottom: 10,
                 ),
                 child: Text(
-                  video.title,
+                  book.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -212,7 +220,7 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        DateFormat('dd-MM-yyyy').format(video.published),
+                        DateFormat('dd-MM-yyyy').format(book.issued),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -227,11 +235,12 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        343.toString(),
+                        book.viewer.toString(),
                         style: TextStyle(
                           fontSize: 12,
                         ),
                       ),
+                      // Adds spacing between text and icon
                     ],
                   ),
                 ],
@@ -243,17 +252,62 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-  void _pageDetail(Videos video) {
+  void _pageDetail(Books book) {
     Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => VideoDetail(
-          id: video.id,
-          title: video.title,
-          youtubeId: video.youtubeId,
-          author: video.author,
-          published: video.published,
-          language: video.language.name,
-          videoCateogy: video.videoCategory.name,
+        builder: (context) => BookDetail(
+          id: book.id,
+          code: book.code,
+          title: book.title,
+          author: book.author,
+          issued: book.issued,
+          page: book.page,
+          image: book.image,
+          ebook: book.ebook,
+          language: book.language.name,
+          bookCategory: book.bookCategory.name,
+        ),
+      ),
+    );
+  }
+
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: bookCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(bookCategoryModelList[index], index);
+        },
+      ),
+    );
+  }
+
+  Widget _categoryCard(BookCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
       ),
     );

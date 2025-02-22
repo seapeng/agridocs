@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_module/theme_logic.dart';
-import '../app_module/language_logic.dart';
+import '../app_module/translate_logic.dart';
 
 import 'video_logic.dart';
 import 'video_screen.dart';
@@ -11,7 +11,7 @@ Widget providerVideoApp() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
-      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+      ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
     child: VideoApp(),
   );
@@ -37,16 +37,14 @@ class _VideoAppState extends State<VideoApp> {
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
             backgroundColor: const Color.fromARGB(255, 33, 112, 35),
-            foregroundColor: Colors.white //here you can give the text color
-            ),
+            foregroundColor: Colors.white),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
             backgroundColor: const Color.fromARGB(255, 33, 112, 35),
-            foregroundColor: Colors.white //here you can give the text color
-            ),
+            foregroundColor: Colors.white),
       ),
     );
   }

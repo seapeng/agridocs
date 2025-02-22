@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'language_data.dart';
-import 'language_logic.dart';
+import 'translate_data.dart';
+import 'translate_logic.dart';
 import 'theme_logic.dart';
 
 import '../book_module/book_provider.dart';
@@ -19,12 +19,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  Language _lang = Khmer();
+  Translate _lang = Khmer();
   int _langIndex = 0;
   @override
   Widget build(BuildContext context) {
-    _lang = context.watch<LanguageLogic>().lang;
-    _langIndex = context.watch<LanguageLogic>().langIndex;
+    _lang = context.watch<TranslateLogic>().lang;
+    _langIndex = context.watch<TranslateLogic>().langIndex;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -117,7 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                 leading: Text("ខ្មែរ"),
                 title: Text(_lang.changeToKhmer),
                 onTap: () {
-                  context.read<LanguageLogic>().changToKhmer();
+                  context.read<TranslateLogic>().changToKhmer();
                 },
                 trailing: _langIndex == 0 ? Icon(Icons.check) : null,
               ),
@@ -125,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                 leading: Text("EN"),
                 title: Text(_lang.changeToEnglish),
                 onTap: () {
-                  context.read<LanguageLogic>().changeToEnglish();
+                  context.read<TranslateLogic>().changeToEnglish();
                 },
                 trailing: _langIndex == 1 ? Icon(Icons.check) : null,
               ),

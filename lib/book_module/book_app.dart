@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_module/theme_logic.dart';
-import '../app_module/language_logic.dart';
+import '../app_module/translate_logic.dart';
 
 import 'book_logic.dart';
 import 'book_screen.dart';
@@ -11,7 +11,7 @@ Widget providerBookApp() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
-      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+      ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
     child: BookApp(),
   );

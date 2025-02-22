@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_module/theme_logic.dart';
-import '../app_module/language_logic.dart';
+import '../app_module/translate_logic.dart';
 
 import 'about_screen.dart';
 
@@ -9,7 +9,7 @@ Widget providerAboutApp() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
-      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+      ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
     child: AboutApp(),
   );
@@ -34,14 +34,14 @@ class _AboutAppState extends State<AboutApp> {
         brightness: Brightness.light,
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
-          foregroundColor: Color(0xFF000000), //here you can give the text color
+          foregroundColor: Color(0xFF000000),
         ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Battambang',
         appBarTheme: AppBarTheme(
-          foregroundColor: Color(0xFFFFFFFF), //here you can give the text color
+          foregroundColor: Color(0xFFFFFFFF),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-class Language {
+class Translate {
   String get appName => "Agriculture Library";
   String get themeColor => "Theme Color";
   String get toSystemMode => "To System Mode";
@@ -15,10 +15,10 @@ class Language {
   String get searchHint => "Search here...";
   String get contact => "Contact";
   String get about => "About";
-  String get setting => "Setting";
+  String get noMoreData => "No more data";
 }
 
-class Khmer implements Language {
+class Khmer implements Translate {
   String get appName => "បណ្ណាល័យកសិកម្ម";
   String get themeColor => "រូបរាងផ្ទៃ";
   String get toSystemMode => "ប្តូរតាមប្រព័ន្ធ";
@@ -35,5 +35,5 @@ class Khmer implements Language {
   String get searchHint => "ស្វែងរកនៅទីនេះ...";
   String get contact => "ទំនាក់ទំនង";
   String get about => "អំពីបណ្ណាល័យ";
-  String get setting => "ការកំណត់";
+  String get noMoreData => "មិនមានទិន្និន័យបន្ថែម";
 }

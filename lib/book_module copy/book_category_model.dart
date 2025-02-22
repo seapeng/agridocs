@@ -2,8 +2,11 @@ class BookCategoryModel {
   int id = 0;
   String name = "no name";
   String image = "no image";
-  BookCategoryModel(
-      {this.id = 0, this.name = "no name", this.image = "no image"});
+  BookCategoryModel({
+    this.id = 0,
+    this.name = "no name",
+    this.image = "no image",
+  });
 }
 
 List<BookCategoryModel> bookCategoryModelList = [

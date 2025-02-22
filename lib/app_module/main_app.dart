@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'main_screen.dart';
 import 'theme_logic.dart';
-import 'language_logic.dart';
+import 'translate_logic.dart';
 
 Widget providerMainApp() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
-      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+      ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
     child: MainApp(),
   );

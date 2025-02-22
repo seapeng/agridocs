@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_module/theme_logic.dart';
-import '../app_module/language_logic.dart';
+import '../app_module/translate_logic.dart';
 import 'contact_screen.dart';
 
 Widget providerContactApp() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
-      ChangeNotifierProvider(create: (context) => LanguageLogic()),
+      ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
     child: ContactApp(),
   );
