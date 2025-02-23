@@ -134,6 +134,7 @@ class _BookScreenState extends State<BookScreen> {
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
     debugPrint(loading.toString());
+
     return RefreshIndicator(
       onRefresh: () async {},
       child: GridView.builder(
@@ -141,10 +142,7 @@ class _BookScreenState extends State<BookScreen> {
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 5,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Number of columns
           mainAxisSpacing: 5, // Space between rows
@@ -162,7 +160,7 @@ class _BookScreenState extends State<BookScreen> {
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
               child: loading
-                  ? const CircularProgressIndicator()
+                  ? CircularProgressIndicator() // Shows at the bottom when loading more
                   : Text(_lang.noMoreData),
             );
           }

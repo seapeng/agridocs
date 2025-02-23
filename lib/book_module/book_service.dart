@@ -10,7 +10,7 @@ class BookService {
     required Function(Object?) onError,
   }) async {
     String url =
-        "https://agridocs-api.daovitou.net/mobile/v1/books?pages=$page&limit=6";
+        "https://agridocs-api.daovitou.net/mobile/v1/books?pages=$page&limit=8";
     try {
       http.Response response = await http.get(Uri.parse(url));
       final data = compute(bookModelFromJson, response.body);

@@ -46,8 +46,8 @@ class BookLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records = data.data.books;
-        debugPrint("totalRecords: ${data.data.totalRecords}");
-        debugPrint("Lenght: ${_records.length}");
+        // debugPrint("totalRecords: ${data.data.totalRecords}");
+        // debugPrint("Lenght: ${_records.length}");
         _loading = true;
         // if (data.data.totalRecords == _records.length) {
         // _loading = false;
