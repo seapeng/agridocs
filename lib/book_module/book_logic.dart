@@ -46,11 +46,14 @@ class BookLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records = data.data.books;
-        if (data.data.totalRecords == _records.length) {
-          _loading = false;
-        } else {
-          _loading = true;
-        }
+        debugPrint("totalRecords: ${data.data.totalRecords}");
+        debugPrint("Lenght: ${_records.length}");
+        _loading = true;
+        // if (data.data.totalRecords == _records.length) {
+        // _loading = false;
+        // } else {
+        //   _loading = true;
+        // }
         notifyListeners();
       },
       onError: (err) {

@@ -133,88 +133,87 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
-    debugPrint(loading.toString());
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: GridView.builder(
-        controller: _scroller,
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 5,
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              controller: _scroller,
+              itemCount: books.length + 1,
+              itemBuilder: (context, index) {
+                if (index < books.length) {
+                  return _buildItem(books[index]);
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: loading
+                        ? const CircularProgressIndicator()
+                        : Text("No more data"),
+                  );
+                }
+              },
+            ),
+          ),
         ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
-          mainAxisSpacing: 5, // Space between rows
-          crossAxisSpacing: 10, // Space between columns
-          childAspectRatio: 4 / 7,
-        ),
-        itemCount: books.length + 1,
-        itemBuilder: (context, index) {
-          if (index < books.length) {
-            // debugPrint(index.toString());
-            // debugPrint("Lenght: ${books.length.toString()}");
-            return _buildItem(books[index]);
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: loading
-                  ? const CircularProgressIndicator()
-                  : Text(_lang.noMoreData),
-            );
-          }
-        },
-      ),
+      ],
     );
   }
 
   Widget _buildItem(Books book) {
     return Container(
-      padding: EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Card(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: InkWell(
-                onTap: () => _pageDetail(book),
+            InkWell(
+              onTap: () => _pageDetail(book),
+              child: SizedBox(
+                width: double.infinity,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
-                  ), // Set border radius
+                  ),
                   child: Image.network(
-                    book.image, // Replace with your image path
+                    book.image,
                     fit: BoxFit.cover,
-                    width: double.maxFinite,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 10,
+                  bottom: 10,
+                ),
+                child: Text(
+                  book.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 5,
-                bottom: 5,
-                left: 8,
-                right: 8,
-              ), // Top margin of 20
-              child: Text(
-                book.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                left: 20,
+                right: 20,
+                bottom: 10,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+              child: Row(
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.today,
@@ -222,16 +221,14 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        "20 មករា 2025",
+                        DateFormat('dd-MM-yyyy').format(book.issued),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, bottom: 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
+                  SizedBox(width: 20),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.visibility,
@@ -239,7 +236,7 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        87.toString(),
+                        book.viewer.toString(),
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -247,8 +244,8 @@ class _BookScreenState extends State<BookScreen> {
                       // Adds spacing between text and icon
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

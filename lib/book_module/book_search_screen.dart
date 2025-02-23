@@ -104,7 +104,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
           crossAxisCount: 2,
           mainAxisSpacing: 5,
           crossAxisSpacing: 5,
-          childAspectRatio: 4 / 6,
+          childAspectRatio: 4 / 7,
         ),
         itemCount: books.length,
         physics: const BouncingScrollPhysics(),
