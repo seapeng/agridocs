@@ -10,6 +10,7 @@ import 'book_model.dart';
 import 'book_search_screen.dart';
 import 'book_detail.dart';
 import 'book_category_model.dart';
+import 'book_category_screen.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -288,6 +289,31 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
+  // Widget _categoryCard(BookCategoryModel category, int index) {
+  //   bool isSelected = _selectedIndex == index;
+  //   return GestureDetector(
+  //     onTap: () {
+  //       setState(() {
+  //         _selectedIndex = index;
+  //       });
+  //     },
+  //     child: Card(
+  //       color: isSelected ? Colors.black : Colors.white,
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(10),
+  //         child: Text(
+  //           category.name,
+  //           style: TextStyle(
+  //             fontSize: 16,
+  //             color: isSelected ? Colors.white : Colors.black,
+  //             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _categoryCard(BookCategoryModel category, int index) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
@@ -295,6 +321,12 @@ class _BookScreenState extends State<BookScreen> {
         setState(() {
           _selectedIndex = index;
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookCategoryScreen(),
+          ),
+        );
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,

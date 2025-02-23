@@ -68,6 +68,7 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
+// **********************************
   // void _bookInCategory(String title) {
   //   Navigator.of(context).push(
   //     CupertinoPageRoute(
@@ -75,7 +76,7 @@ class _BookScreenState extends State<BookScreen> {
   //     ),
   //   );
   // }
-
+// 8888888888888888888888888888
   void _pageDetail(BookModel book) {
     Navigator.of(context).push(
       CupertinoPageRoute(
