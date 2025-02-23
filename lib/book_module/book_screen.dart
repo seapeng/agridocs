@@ -133,39 +133,46 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
-    debugPrint(loading.toString());
+    // debugPrint(loading.toString());
 
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: GridView.builder(
-        controller: _scroller,
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
-          mainAxisSpacing: 5, // Space between rows
-          crossAxisSpacing: 10, // Space between columns
-          childAspectRatio: 4 / 7,
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: GridView.builder(
+              controller: _scroller,
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                mainAxisSpacing: 5, // Space between rows
+                crossAxisSpacing: 10, // Space between columns
+                childAspectRatio: 4 / 7,
+              ),
+              itemCount: books.length + 1,
+              itemBuilder: (context, index) {
+                if (index < books.length) {
+                  // debugPrint(index.toString());
+                  // debugPrint("Lenght: ${books.length.toString()}");
+                  return _buildItem(books[index]);
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: loading
+                        ? CircularProgressIndicator() // Shows at the bottom when loading more
+                        : Text(_lang.noMoreData),
+                  );
+                }
+              },
+            ),
+          ),
         ),
-        itemCount: books.length + 1,
-        itemBuilder: (context, index) {
-          if (index < books.length) {
-            // debugPrint(index.toString());
-            // debugPrint("Lenght: ${books.length.toString()}");
-            return _buildItem(books[index]);
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: loading
-                  ? CircularProgressIndicator() // Shows at the bottom when loading more
-                  : Text(_lang.noMoreData),
-            );
-          }
-        },
-      ),
+      ],
     );
   }
 
@@ -220,7 +227,7 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        "20 មករា 2025",
+                        DateFormat('dd-MM-yyyy').format(book.issued),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -237,7 +244,7 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        87.toString(),
+                        book.viewer.toString(),
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -290,31 +297,6 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  // Widget _categoryCard(BookCategoryModel category, int index) {
-  //   bool isSelected = _selectedIndex == index;
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         _selectedIndex = index;
-  //       });
-  //     },
-  //     child: Card(
-  //       color: isSelected ? Colors.black : Colors.white,
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(10),
-  //         child: Text(
-  //           category.name,
-  //           style: TextStyle(
-  //             fontSize: 16,
-  //             color: isSelected ? Colors.white : Colors.black,
-  //             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _categoryCard(BookCategoryModel category, int index) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
@@ -322,12 +304,12 @@ class _BookScreenState extends State<BookScreen> {
         setState(() {
           _selectedIndex = index;
         });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookCategoryScreen(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => BookCategoryScreen(),
+        //   ),
+        // );
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,

@@ -28,8 +28,4 @@ List<VideoCategoryModel> videoCategoryModelList = [
     id: 4,
     name: "ការផលិតជី",
   ),
-  VideoCategoryModel(
-    id: 5,
-    name: "ថ្នាំកសិកម្ម",
-  ),
 ];

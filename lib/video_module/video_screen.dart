@@ -9,6 +9,7 @@ import 'video_logic.dart';
 import 'video_model.dart';
 import 'video_search_screen.dart';
 import 'video_detail.dart';
+import 'video_category_model.dart';
 
 class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key});
@@ -131,26 +132,33 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildListView(List<Videos> items) {
     bool loading = context.watch<VideoLogic>().loading;
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        controller: _scroller,
-        itemCount: items.length + 1,
-        itemBuilder: (context, index) {
-          if (index < items.length) {
-            return _buildListItem(items[index]);
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: loading
-                  ? const CircularProgressIndicator()
-                  : Text(_lang.noMoreData),
-            );
-          }
-        },
-      ),
+    return Column(
+      children: [
+        _buildCategoryListView(),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              controller: _scroller,
+              itemCount: items.length + 1,
+              itemBuilder: (context, index) {
+                if (index < items.length) {
+                  return _buildListItem(items[index]);
+                } else {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: loading
+                        ? const CircularProgressIndicator()
+                        : Text(_lang.noMoreData),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -254,6 +262,48 @@ class _VideoScreenState extends State<VideoScreen> {
           published: video.published,
           language: video.language.name,
           videoCateogy: video.videoCategory.name,
+        ),
+      ),
+    );
+  }
+
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: videoCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(videoCategoryModelList[index], index);
+        },
+      ),
+    );
+  }
+
+  Widget _categoryCard(VideoCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
       ),
     );
