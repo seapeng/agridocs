@@ -111,7 +111,7 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildErrorMessage(Object error) {
-    debugPrint(error.toString());
+    // debugPrint(error.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

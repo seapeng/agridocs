@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
-import 'book_logic.dart';
 import 'book_model.dart';
+import 'book_logic.dart';
 import 'book_search_screen.dart';
 import 'book_detail.dart';
 import 'book_category_model.dart';
-import 'book_category_screen.dart';
+import 'book_category_logic.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -49,6 +50,7 @@ class _BookScreenState extends State<BookScreen> {
   @override
   Widget build(BuildContext context) {
     _lang = context.watch<TranslateLogic>().lang;
+
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
@@ -130,9 +132,11 @@ class _BookScreenState extends State<BookScreen> {
     bool loading = context.watch<BookLogic>().loading;
     // debugPrint(loading.toString());
     bool moreData = context.watch<BookLogic>().moreData;
+    List<Categories> categoriesRecords =
+        context.watch<BookCategoryLogic>().categoriesRecords;
     return Column(
       children: [
-        _buildCategoryListView(),
+        _buildCategoryListView(categoriesRecords),
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {},
@@ -281,22 +285,25 @@ class _BookScreenState extends State<BookScreen> {
 
   int _selectedIndex = 0;
 
-  Widget _buildCategoryListView() {
+  Widget _buildCategoryListView(List<Categories> categories) {
     return Container(
       height: 50,
       margin: EdgeInsets.symmetric(horizontal: 10),
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: bookCategoryModelList.length,
-        itemBuilder: (context, index) {
-          return _categoryCard(bookCategoryModelList[index], index);
-        },
+      child: RefreshIndicator(
+        onRefresh: () async {},
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            return _categoryCard(categories[index], index);
+          },
+        ),
       ),
     );
   }
 
-  Widget _categoryCard(BookCategoryModel category, int index) {
+  Widget _categoryCard(Categories category, index) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
       onTap: () {

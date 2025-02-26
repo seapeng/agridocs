@@ -18,9 +18,9 @@ class BookSearchLogic extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future search(String bookTitle) async {
+  Future search(String keywordSearch) async {
     await BookService.search(
-      bookTitle: bookTitle,
+      keyword: keywordSearch,
       onRes: (value) async {
         final data = await value;
         _records = data.data.books;
