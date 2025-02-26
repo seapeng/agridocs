@@ -20,6 +20,7 @@ class _VideoSearchScreenState extends State<VideoSearchScreen> {
   Translate _lang = Khmer();
   @override
   Widget build(BuildContext context) {
+    _lang = context.watch<TranslateLogic>().lang;
     return Scaffold(
       appBar: AppBar(
         title: _buildSearchBar(),

@@ -17,9 +17,9 @@ class BookSearchScreen extends StatefulWidget {
 
 class _BookSearchScreenState extends State<BookSearchScreen> {
   Translate _lang = Khmer();
-
   @override
   Widget build(BuildContext context) {
+    _lang = context.watch<TranslateLogic>().lang;
     return Scaffold(
       appBar: AppBar(
         title: _buildSearchBar(),
@@ -78,7 +78,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   }
 
   Widget _buildErrorMessage(Object error) {
-    debugPrint(error.toString());
+    // debugPrint(error.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
