@@ -13,12 +13,15 @@ Widget providerVideoApp() {
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
       ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
-    child: VideoApp(),
+    child: VideoApp(categoryId: 0),
   );
 }
 
 class VideoApp extends StatefulWidget {
-  const VideoApp({super.key});
+  // const VideoApp({super.key});
+  final int categoryId;
+
+  VideoApp({required this.categoryId});
 
   @override
   State<VideoApp> createState() => _VideoAppState();
@@ -50,7 +53,7 @@ class _VideoAppState extends State<VideoApp> {
   }
 
   Future _fetchData() async {
-    await context.read<VideoLogic>().read();
+    await context.read<VideoLogic>().read(0);
   }
 
   Widget _buildLoadingScreen() {

@@ -10,6 +10,7 @@ import 'video_model.dart';
 import 'video_search_screen.dart';
 import 'video_detail.dart';
 import 'video_category_model.dart';
+import 'video_category_logic.dart';
 
 class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key});
@@ -26,7 +27,12 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     super.initState();
+    _fetchData();
     _scroller.addListener(_scrollListener);
+  }
+
+  Future<void> _fetchData() async {
+    await context.read<VideoCategoryLogic>().read();
   }
 
   _scrollListener() {
@@ -39,15 +45,10 @@ class _VideoScreenState extends State<VideoScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
+        context.read<VideoLogic>().setLoading();
         context.read<VideoLogic>().readAppend();
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _scroller.removeListener(_scrollListener);
-    super.dispose();
   }
 
   @override
@@ -121,7 +122,7 @@ class _VideoScreenState extends State<VideoScreen> {
           ElevatedButton(
             onPressed: () {
               context.read<VideoLogic>().setLoading();
-              context.read<VideoLogic>().read();
+              context.read<VideoLogic>().read(0);
             },
             child: const Text("RETRY"),
           ),
@@ -132,30 +133,47 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildListView(List<Videos> items) {
     bool loading = context.watch<VideoLogic>().loading;
+    bool categoryLoading = context.watch<VideoLogic>().categoryLoading;
+
+    List<Categories> categoriesRecords =
+        context.watch<VideoCategoryLogic>().categories;
     return Column(
       children: [
-        _buildCategoryListView(),
+        _buildCategoryListView(categoriesRecords),
         Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {},
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              controller: _scroller,
-              itemCount: items.length + 1,
-              itemBuilder: (context, index) {
-                if (index < items.length) {
-                  return _buildListItem(items[index]);
-                } else {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: loading
-                        ? const CircularProgressIndicator()
-                        : Text(_lang.noMoreData),
-                  );
-                }
-              },
-            ),
+          child: Stack(
+            children: [
+              RefreshIndicator(
+                onRefresh: () async {},
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  controller: _scroller,
+                  itemCount: items.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index < items.length) {
+                      return _buildListItem(items[index]);
+                    } else {
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        alignment: Alignment.center,
+                        child: loading
+                            ? const CircularProgressIndicator()
+                            : Text(_lang.noMoreData),
+                      );
+                    }
+                  },
+                ),
+              ),
+              if (categoryLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: Color(0xFFfef7ff), // Optional: Dim background
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       ],
@@ -267,30 +285,36 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-  int _selectedIndex = 0;
-
-  Widget _buildCategoryListView() {
+  Widget _buildCategoryListView(List<Categories> categories) {
     return Container(
       height: 50,
       margin: EdgeInsets.symmetric(horizontal: 10),
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: videoCategoryModelList.length,
-        itemBuilder: (context, index) {
-          return _categoryCard(videoCategoryModelList[index], index);
-        },
+      child: RefreshIndicator(
+        onRefresh: () async {},
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            return _categoryCard(categories[index], categories[index].id);
+          },
+        ),
       ),
     );
   }
 
-  Widget _categoryCard(VideoCategoryModel category, int index) {
+  int _selectedIndex = 0;
+
+  Widget _categoryCard(Categories category, index) {
     bool isSelected = _selectedIndex == index;
+    // debugPrint(index.toString());
     return GestureDetector(
       onTap: () {
         setState(() {
           _selectedIndex = index;
         });
+        context.read<VideoLogic>().setCategoryLoading();
+        context.read<VideoLogic>().read(category.id);
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,
@@ -307,5 +331,11 @@ class _VideoScreenState extends State<VideoScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scroller.removeListener(_scrollListener);
+    super.dispose();
   }
 }

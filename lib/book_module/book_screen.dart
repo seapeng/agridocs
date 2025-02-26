@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
-import 'book_app.dart';
 import 'book_model.dart';
 import 'book_logic.dart';
 import 'book_search_screen.dart';
@@ -136,6 +134,8 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
+    bool categoryLoading = context.watch<BookLogic>().categoryLoading;
+
     // debugPrint(loading.toString());
     bool moreData = context.watch<BookLogic>().moreData;
     List<Categories> categoriesRecords =
@@ -144,41 +144,55 @@ class _BookScreenState extends State<BookScreen> {
       children: [
         _buildCategoryListView(categoriesRecords),
         Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {},
-            child: GridView.builder(
-              controller: _scroller,
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 10,
-                childAspectRatio: 4 / 7,
+          child: Stack(
+            children: [
+              RefreshIndicator(
+                onRefresh: () async {},
+                child: GridView.builder(
+                  controller: _scroller,
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 4 / 7,
+                  ),
+                  itemCount: books.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index < books.length) {
+                      return _buildItem(books[index]);
+                    } else {
+                      return moreData
+                          ? null
+                          : Center(child: Text(_lang.noMoreData));
+                    }
+                  },
+                ),
               ),
-              itemCount: books.length + 1,
-              itemBuilder: (context, index) {
-                if (index < books.length) {
-                  return _buildItem(books[index]);
-                } else {
-                  return moreData
-                      ? null
-                      : Center(child: Text(_lang.noMoreData));
-                }
-              },
-            ),
+              if (categoryLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: Color(0xFFfef7ff), // Optional: Dim background
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              if (loading)
+                Positioned(
+                  bottom: 20, // Adjust vertical position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+            ],
           ),
         ),
-        if (loading)
-          Positioned(
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
       ],
     );
   }
@@ -311,20 +325,22 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _categoryCard(Categories category, index) {
     bool isSelected = _selectedIndex == index;
-    debugPrint(index.toString());
+    // debugPrint(index.toString());
     return GestureDetector(
       onTap: () {
         setState(() {
           _selectedIndex = index;
         });
+        context.read<BookLogic>().setCategoryLoading();
+        context.read<BookLogic>().read(category.id);
 
         // debugPrint(category.id.toString());
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookApp(categoryId: category.id),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => BookApp(categoryId: category.id),
+        //   ),
+        // );
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,

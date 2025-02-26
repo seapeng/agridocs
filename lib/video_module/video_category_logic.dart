@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert'; // For JSON decoding
 import 'package:http/http.dart' as http; // For API requests
 
-import 'book_category_model.dart';
+import 'video_category_model.dart';
 
-class BookCategoryLogic with ChangeNotifier {
+class VideoCategoryLogic with ChangeNotifier {
   List<Categories> _categories = [];
 
   List<Categories> get categories => _categories;
@@ -12,7 +12,7 @@ class BookCategoryLogic with ChangeNotifier {
   Future<void> read() async {
     try {
       final response = await http.get(Uri.parse(
-          "https://agridocs-api.daovitou.net/mobile/v1/book-categories"));
+          "https://agridocs-api.daovitou.net/mobile/v1/video-categories"));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = json.decode(response.body);

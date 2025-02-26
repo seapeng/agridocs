@@ -10,6 +10,9 @@ class BookLogic extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
+  bool _categoryLoading = false;
+  bool get categoryLoading => _categoryLoading;
+
   bool _moreData = true;
   bool get moreData => _moreData;
 
@@ -18,6 +21,11 @@ class BookLogic extends ChangeNotifier {
 
   void setLoading() {
     _loading = true;
+    notifyListeners();
+  }
+
+  void setCategoryLoading() {
+    _categoryLoading = true;
     notifyListeners();
   }
 
@@ -53,7 +61,7 @@ class BookLogic extends ChangeNotifier {
     );
   }
 
-  Future read(categoryId) async {
+  Future read(int categoryId) async {
     // debugPrint("category id: ${categoryId.toString()}");
     await BookService.read(
       categoryId: categoryId,
@@ -61,6 +69,7 @@ class BookLogic extends ChangeNotifier {
         final data = await value;
         _records = data.data.books;
         _loading = false;
+        _categoryLoading = false;
 
         // if (data.data.totalRecords == _records.length) {
         //   _moreData = false;

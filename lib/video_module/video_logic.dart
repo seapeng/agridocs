@@ -10,11 +10,19 @@ class VideoLogic extends ChangeNotifier {
   bool _loading = true;
   bool get loading => _loading;
 
+  bool _categoryLoading = false;
+  bool get categoryLoading => _categoryLoading;
+
   Object? _error;
   Object? get error => _error;
 
   void setLoading() {
     _loading = true;
+    notifyListeners();
+  }
+
+  void setCategoryLoading() {
+    _categoryLoading = true;
     notifyListeners();
   }
 
@@ -41,8 +49,9 @@ class VideoLogic extends ChangeNotifier {
     );
   }
 
-  Future read() async {
+  Future read(int categoryId) async {
     await VideoService.read(
+      categoryId: categoryId,
       onRes: (value) async {
         final data = await value;
         _records = data.data.videos;
@@ -51,6 +60,7 @@ class VideoLogic extends ChangeNotifier {
         } else {
           _loading = true;
         }
+        _categoryLoading = false;
         notifyListeners();
       },
       onError: (err) {
