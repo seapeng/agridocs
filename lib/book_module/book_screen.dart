@@ -40,7 +40,7 @@ class _BookScreenState extends State<BookScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
-        // context.read<BookLogic>().setLoading();
+        context.read<BookLogic>().setLoading();
         context.read<BookLogic>().readAppend();
       }
     });
@@ -128,55 +128,47 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
-    debugPrint(loading.toString());
+    // debugPrint(loading.toString());
+    bool moreData = context.watch<BookLogic>().moreData;
     return Column(
       children: [
         _buildCategoryListView(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {},
-            child: Stack(
-              children: [
-                GridView.builder(
-                  controller: _scroller,
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 4 / 7,
-                  ),
-                  itemCount: books.length,
-                  itemBuilder: (context, index) {
-                    if (index < books.length) {
-                      return _buildItem(books[index]);
-                    } else {
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        child: loading
-                            ? CircularProgressIndicator() // Shows at the bottom when loading more
-                            : Text(_lang.noMoreData),
-                      );
-                    }
-                  },
-                ),
-                // if (loading)
-                //   Positioned(
-                //     bottom: 20, // Adjust as needed
-                //     left: 0,
-                //     right: 0,
-                //     child: Center(
-                //       child: CircularProgressIndicator(),
-                //     ),
-                //   ),
-              ],
+            child: GridView.builder(
+              controller: _scroller,
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 10,
+                childAspectRatio: 4 / 7,
+              ),
+              itemCount: books.length + 1,
+              itemBuilder: (context, index) {
+                if (index < books.length) {
+                  return _buildItem(books[index]);
+                } else {
+                  return moreData
+                      ? null
+                      : Center(child: Text(_lang.noMoreData));
+                }
+              },
             ),
           ),
         ),
+        if (loading)
+          Positioned(
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
       ],
     );
   }
@@ -215,7 +207,9 @@ class _BookScreenState extends State<BookScreen> {
                 book.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
             Row(

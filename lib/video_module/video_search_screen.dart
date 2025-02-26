@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import '../app_module/translate_data.dart';
+import '../app_module/translate_logic.dart';
 
 import 'video_model.dart';
 import 'video_search_logic.dart';
@@ -15,6 +17,7 @@ class VideoSearchScreen extends StatefulWidget {
 }
 
 class _VideoSearchScreenState extends State<VideoSearchScreen> {
+  Translate _lang = Khmer();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +37,7 @@ class _VideoSearchScreenState extends State<VideoSearchScreen> {
   Widget _buildSearchBar() {
     return SearchBar(
       controller: _searchCtrl,
-      hintText: "Search...",
+      hintText: _lang.searchHint,
       textInputAction: TextInputAction.search,
       trailing: [
         IconButton(

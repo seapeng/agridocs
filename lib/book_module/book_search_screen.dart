@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
+import '../app_module/translate_data.dart';
+import '../app_module/translate_logic.dart';
 
 import 'book_model.dart';
 import 'book_search_logic.dart';
@@ -14,6 +16,8 @@ class BookSearchScreen extends StatefulWidget {
 }
 
 class _BookSearchScreenState extends State<BookSearchScreen> {
+  Translate _lang = Khmer();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +37,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   Widget _buildSearchBar() {
     return SearchBar(
       controller: _searchCtrl,
-      hintText: "Search...",
+      hintText: _lang.searchHint,
       textInputAction: TextInputAction.search,
       trailing: [
         IconButton(
