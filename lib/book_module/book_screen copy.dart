@@ -21,8 +21,8 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenState extends State<BookScreen> {
   Translate _lang = Khmer();
-  final _scroller = ScrollController();
   bool _showUpButton = false;
+  final _scroller = ScrollController();
 
   @override
   void initState() {
@@ -40,15 +40,10 @@ class _BookScreenState extends State<BookScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
+        context.read<BookLogic>().setLoading();
         context.read<BookLogic>().readAppend();
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _scroller.removeListener(_scrollListener);
-    super.dispose();
   }
 
   @override
@@ -112,7 +107,7 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _buildErrorMessage(Object error) {
-    debugPrint(error.toString());
+    // debugPrint(error.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -132,6 +127,7 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _buildGridView(List<Books> books) {
+    // debugPrint(loading.toString());
     bool loading = context.watch<BookLogic>().loading;
     return Column(
       children: [
@@ -139,23 +135,38 @@ class _BookScreenState extends State<BookScreen> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {},
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              controller: _scroller,
-              itemCount: books.length + 1,
-              itemBuilder: (context, index) {
-                if (index < books.length) {
-                  return _buildItem(books[index]);
-                } else {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: loading
-                        ? const CircularProgressIndicator()
-                        : Text("No more data"),
-                  );
-                }
-              },
+            child: Stack(
+              children: [
+                GridView.builder(
+                  controller: _scroller,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1,
+                  ),
+                  itemCount: books.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      color: Colors.blue,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Item ${books[index]}',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    );
+                  },
+                ),
+                if (loading)
+                  Positioned(
+                    bottom: 20, // Adjust as needed
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -165,55 +176,48 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildItem(Books book) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.only(bottom: 5),
       child: Card(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () => _pageDetail(book),
-              child: SizedBox(
-                width: double.infinity,
+            Expanded(
+              child: InkWell(
+                onTap: () => _pageDetail(book),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
-                  ),
+                  ), // Set border radius
                   child: Image.network(
                     book.image,
                     fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 10,
-                  bottom: 10,
-                ),
-                child: Text(
-                  book.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
+                    width: double.maxFinite,
                   ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: 10,
+                top: 5,
+                bottom: 5,
+                left: 8,
+                right: 8,
+              ), // Top margin of 20
+              child: Text(
+                book.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
-              child: Row(
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
                     children: [
                       Icon(
                         Icons.today,
@@ -226,9 +230,11 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 20),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
                     children: [
                       Icon(
                         Icons.visibility,
@@ -244,8 +250,8 @@ class _BookScreenState extends State<BookScreen> {
                       // Adds spacing between text and icon
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -289,31 +295,6 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  // Widget _categoryCard(BookCategoryModel category, int index) {
-  //   bool isSelected = _selectedIndex == index;
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         _selectedIndex = index;
-  //       });
-  //     },
-  //     child: Card(
-  //       color: isSelected ? Colors.black : Colors.white,
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(10),
-  //         child: Text(
-  //           category.name,
-  //           style: TextStyle(
-  //             fontSize: 16,
-  //             color: isSelected ? Colors.white : Colors.black,
-  //             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _categoryCard(BookCategoryModel category, int index) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
@@ -321,12 +302,12 @@ class _BookScreenState extends State<BookScreen> {
         setState(() {
           _selectedIndex = index;
         });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookCategoryScreen(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => BookCategoryScreen(),
+        //   ),
+        // );
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,
@@ -343,5 +324,17 @@ class _BookScreenState extends State<BookScreen> {
         ),
       ),
     );
+  }
+
+  // @override
+  // void dispose() {
+  //   _scroller.removeListener(_scrollListener);
+  //   super.dispose();
+  // }
+
+  @override
+  void dispose() {
+    _scroller.dispose();
+    super.dispose();
   }
 }

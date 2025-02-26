@@ -5,19 +5,21 @@ import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
+import 'book_logic.dart';
 import 'book_model.dart';
 import 'book_search_screen.dart';
 import 'book_detail.dart';
-import 'book_category_logic.dart';
+import 'book_category_model.dart';
+import 'book_category_screen.dart';
 
-class BookCategoryScreen extends StatefulWidget {
-  const BookCategoryScreen({super.key});
+class BookScreen extends StatefulWidget {
+  const BookScreen({super.key});
 
   @override
-  State<BookCategoryScreen> createState() => _BookCategoryScreenState();
+  State<BookScreen> createState() => _BookScreenState();
 }
 
-class _BookCategoryScreenState extends State<BookCategoryScreen> {
+class _BookScreenState extends State<BookScreen> {
   Translate _lang = Khmer();
   final _scroller = ScrollController();
   bool _showUpButton = false;
@@ -34,6 +36,11 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
         _showUpButton = true;
       } else {
         _showUpButton = false;
+      }
+
+      if (_scroller.hasClients &&
+          _scroller.position.pixels == _scroller.position.maxScrollExtent) {
+        context.read<BookLogic>().readAppend();
       }
     });
   }
@@ -94,18 +101,18 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
   }
 
   Widget _buildBody() {
-    Object? error = context.watch<BookCategoryLogic>().error;
-    List<Books> records = context.watch<BookCategoryLogic>().records;
+    Object? error = context.watch<BookLogic>().error;
+    List<Books> records = context.watch<BookLogic>().records;
 
     if (error != null) {
       return _buildErrorMessage(error);
     } else {
-      return _buildListView(records);
+      return _buildGridView(records);
     }
   }
 
   Widget _buildErrorMessage(Object error) {
-    debugPrint(error.toString());
+    // debugPrint(error.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,8 +121,8 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
           const Text("Something went wrong"),
           ElevatedButton(
             onPressed: () {
-              context.read<BookCategoryLogic>().setLoading();
-              context.read<BookCategoryLogic>().category();
+              context.read<BookLogic>().setLoading();
+              context.read<BookLogic>().read();
             },
             child: const Text("RETRY"),
           ),
@@ -124,27 +131,45 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
     );
   }
 
-  Widget _buildListView(List<Books> books) {
-    bool loading = context.watch<BookCategoryLogic>().loading;
+  Widget _buildGridView(List<Books> books) {
+    bool loading = context.watch<BookLogic>().loading;
+    // debugPrint(loading.toString());
+
     return Column(
       children: [
+        _buildCategoryListView(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {},
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
+            child: GridView.builder(
               controller: _scroller,
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 10,
+                childAspectRatio: 4 / 7,
+              ),
               itemCount: books.length + 1,
               itemBuilder: (context, index) {
                 if (index < books.length) {
-                  return _buildListItem(books[index]);
+                  return _buildItem(books[index]);
                 } else {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: loading
-                        ? const CircularProgressIndicator()
-                        : Text("No more data"),
+                  // return Container(
+                  //   padding: const EdgeInsets.all(10),
+                  //   alignment: Alignment.center,
+                  //   child: loading
+                  //       ? CircularProgressIndicator() // Shows at the bottom when loading more
+                  //       : Text(_lang.noMoreData),
+                  // );
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 }
               },
@@ -155,57 +180,50 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
     );
   }
 
-  Widget _buildListItem(Books book) {
+  Widget _buildItem(Books book) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.only(bottom: 5),
       child: Card(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () => _pageDetail(book),
-              child: SizedBox(
-                width: double.infinity,
+            Expanded(
+              child: InkWell(
+                onTap: () => _pageDetail(book),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
-                  ),
+                  ), // Set border radius
                   child: Image.network(
                     book.image,
                     fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 10,
-                  bottom: 10,
-                ),
-                child: Text(
-                  book.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
+                    width: double.maxFinite,
                   ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: 10,
+                top: 5,
+                bottom: 5,
+                left: 8,
+                right: 8,
+              ), // Top margin of 20
+              child: Text(
+                book.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
-              child: Row(
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
                     children: [
                       Icon(
                         Icons.today,
@@ -218,9 +236,11 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 20),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // Keeps the row compact
                     children: [
                       Icon(
                         Icons.visibility,
@@ -236,8 +256,8 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                       // Adds spacing between text and icon
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -259,6 +279,54 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
           ebook: book.ebook,
           language: book.language.name,
           bookCategory: book.bookCategory.name,
+        ),
+      ),
+    );
+  }
+
+  int _selectedIndex = 0;
+
+  Widget _buildCategoryListView() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: bookCategoryModelList.length,
+        itemBuilder: (context, index) {
+          return _categoryCard(bookCategoryModelList[index], index);
+        },
+      ),
+    );
+  }
+
+  Widget _categoryCard(BookCategoryModel category, int index) {
+    bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => BookCategoryScreen(),
+        //   ),
+        // );
+      },
+      child: Card(
+        color: isSelected ? Colors.black : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            category.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ),
       ),
     );

@@ -21,8 +21,8 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenState extends State<BookScreen> {
   Translate _lang = Khmer();
-  final _scroller = ScrollController();
   bool _showUpButton = false;
+  final _scroller = ScrollController();
 
   @override
   void initState() {
@@ -40,15 +40,10 @@ class _BookScreenState extends State<BookScreen> {
 
       if (_scroller.hasClients &&
           _scroller.position.pixels == _scroller.position.maxScrollExtent) {
+        // context.read<BookLogic>().setLoading();
         context.read<BookLogic>().readAppend();
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _scroller.removeListener(_scrollListener);
-    super.dispose();
   }
 
   @override
@@ -112,7 +107,7 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _buildErrorMessage(Object error) {
-    debugPrint(error.toString());
+    // debugPrint(error.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -133,42 +128,52 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildGridView(List<Books> books) {
     bool loading = context.watch<BookLogic>().loading;
-    // debugPrint(loading.toString());
-
+    debugPrint(loading.toString());
     return Column(
       children: [
         _buildCategoryListView(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {},
-            child: GridView.builder(
-              controller: _scroller,
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns
-                mainAxisSpacing: 5, // Space between rows
-                crossAxisSpacing: 10, // Space between columns
-                childAspectRatio: 4 / 7,
-              ),
-              itemCount: books.length + 1,
-              itemBuilder: (context, index) {
-                if (index < books.length) {
-                  // debugPrint(index.toString());
-                  // debugPrint("Lenght: ${books.length.toString()}");
-                  return _buildItem(books[index]);
-                } else {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: loading
-                        ? CircularProgressIndicator() // Shows at the bottom when loading more
-                        : Text(_lang.noMoreData),
-                  );
-                }
-              },
+            child: Stack(
+              children: [
+                GridView.builder(
+                  controller: _scroller,
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 4 / 7,
+                  ),
+                  itemCount: books.length,
+                  itemBuilder: (context, index) {
+                    if (index < books.length) {
+                      return _buildItem(books[index]);
+                    } else {
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        alignment: Alignment.center,
+                        child: loading
+                            ? CircularProgressIndicator() // Shows at the bottom when loading more
+                            : Text(_lang.noMoreData),
+                      );
+                    }
+                  },
+                ),
+                // if (loading)
+                //   Positioned(
+                //     bottom: 20, // Adjust as needed
+                //     left: 0,
+                //     right: 0,
+                //     child: Center(
+                //       child: CircularProgressIndicator(),
+                //     ),
+                //   ),
+              ],
             ),
           ),
         ),
@@ -192,7 +197,7 @@ class _BookScreenState extends State<BookScreen> {
                     topRight: Radius.circular(10),
                   ), // Set border radius
                   child: Image.network(
-                    book.image, // Replace with your image path
+                    book.image,
                     fit: BoxFit.cover,
                     width: double.maxFinite,
                   ),
@@ -326,5 +331,11 @@ class _BookScreenState extends State<BookScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scroller.removeListener(_scrollListener);
+    super.dispose();
   }
 }
