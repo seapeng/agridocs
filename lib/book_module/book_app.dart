@@ -4,6 +4,7 @@ import '../app_module/theme_logic.dart';
 import '../app_module/translate_logic.dart';
 
 import 'book_logic.dart';
+import 'book_category_logic.dart';
 import 'book_screen.dart';
 import 'book_splashscreen.dart';
 
@@ -13,12 +14,15 @@ Widget providerBookApp() {
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
       ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
-    child: BookApp(),
+    child: BookApp(categoryId: 0),
   );
 }
 
 class BookApp extends StatefulWidget {
-  const BookApp({super.key});
+  // const BookApp({super.key});
+  final int categoryId;
+
+  BookApp({required this.categoryId});
 
   @override
   State<BookApp> createState() => _BookAppState();
@@ -51,8 +55,8 @@ class _BookAppState extends State<BookApp> {
     );
   }
 
-  Future _fetchData() async {
-    await context.read<BookLogic>().read();
+  Future<void> _fetchData() async {
+    await context.read<BookLogic>().read(widget.categoryId);
   }
 
   Widget _buildLoadingScreen() {

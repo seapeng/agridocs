@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
+import 'dart:convert'; // For JSON decoding
+import 'package:http/http.dart' as http; // For API requests
 
-import 'book_category_model.dart';
-import 'book_category_service.dart';
+import 'book_category_model.dart'; // Import the model
 
-class BookCategoryLogic extends ChangeNotifier {
-  List<Categories> _records = [];
-  List<Categories> get categoriesRecords => _records;
+class BookCategoryLogic with ChangeNotifier {
+  List<Categories> _categories = [];
 
-  Object? _error;
-  Object? get error => _error;
+  List<Categories> get categories => _categories;
 
-  Future read() async {
-    debugPrint("Category Read");
-    await BookCategoryService.read(
-      onRes: (value) async {
-        final data = await value;
-        _records = data.data.categories;
+  Future<void> read() async {
+    try {
+      final response = await http.get(Uri.parse(
+          "https://agridocs-api.daovitou.net/mobile/v1/book-categories"));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+        final List<dynamic> categoryList = jsonData['data']['categories'];
+
+        _categories =
+            categoryList.map((item) => Categories.fromJson(item)).toList();
+        _categories.insert(0, Categories(id: 0, name: "ទាំងអស់"));
         notifyListeners();
-      },
-      onError: (err) {
-        _error = err;
-        notifyListeners();
-      },
-    );
+      } else {
+        throw Exception("Failed to load categories");
+      }
+    } catch (e) {
+      debugPrint("Error: $e");
+    }
   }
 }

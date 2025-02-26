@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
+import 'book_app.dart';
 import 'book_model.dart';
 import 'book_logic.dart';
 import 'book_search_screen.dart';
@@ -28,7 +29,12 @@ class _BookScreenState extends State<BookScreen> {
   @override
   void initState() {
     super.initState();
+    _fetchData();
     _scroller.addListener(_scrollListener);
+  }
+
+  Future<void> _fetchData() async {
+    await context.read<BookCategoryLogic>().read();
   }
 
   _scrollListener() {
@@ -119,7 +125,7 @@ class _BookScreenState extends State<BookScreen> {
           ElevatedButton(
             onPressed: () {
               context.read<BookLogic>().setLoading();
-              context.read<BookLogic>().read();
+              context.read<BookLogic>().read(0);
             },
             child: const Text("RETRY"),
           ),
@@ -133,7 +139,7 @@ class _BookScreenState extends State<BookScreen> {
     // debugPrint(loading.toString());
     bool moreData = context.watch<BookLogic>().moreData;
     List<Categories> categoriesRecords =
-        context.watch<BookCategoryLogic>().categoriesRecords;
+        context.watch<BookCategoryLogic>().categories;
     return Column(
       children: [
         _buildCategoryListView(categoriesRecords),
@@ -283,8 +289,6 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 
-  int _selectedIndex = 0;
-
   Widget _buildCategoryListView(List<Categories> categories) {
     return Container(
       height: 50,
@@ -296,26 +300,31 @@ class _BookScreenState extends State<BookScreen> {
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,
           itemBuilder: (context, index) {
-            return _categoryCard(categories[index], index);
+            return _categoryCard(categories[index], categories[index].id);
           },
         ),
       ),
     );
   }
 
+  int _selectedIndex = 0;
+
   Widget _categoryCard(Categories category, index) {
     bool isSelected = _selectedIndex == index;
+    debugPrint(index.toString());
     return GestureDetector(
       onTap: () {
         setState(() {
           _selectedIndex = index;
         });
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => BookCategoryScreen(),
-        //   ),
-        // );
+
+        // debugPrint(category.id.toString());
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookApp(categoryId: category.id),
+          ),
+        );
       },
       child: Card(
         color: isSelected ? Colors.black : Colors.white,

@@ -13,6 +13,6 @@ Widget bookProvider() {
       ChangeNotifierProvider(create: (context) => BookSearchLogic()),
       ChangeNotifierProvider(create: (context) => BookCategoryLogic()),
     ],
-    child: const BookApp(),
+    child: BookApp(categoryId: 0),
   );
 }

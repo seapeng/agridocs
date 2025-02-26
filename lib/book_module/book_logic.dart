@@ -53,18 +53,20 @@ class BookLogic extends ChangeNotifier {
     );
   }
 
-  Future read() async {
+  Future read(categoryId) async {
+    // debugPrint("category id: ${categoryId.toString()}");
     await BookService.read(
+      categoryId: categoryId,
       onRes: (value) async {
         final data = await value;
         _records = data.data.books;
         _loading = false;
 
-        if (data.data.totalRecords == _records.length) {
-          _moreData = false;
-        } else {
-          _moreData = true;
-        }
+        // if (data.data.totalRecords == _records.length) {
+        //   _moreData = false;
+        // } else {
+        _moreData = true;
+        // }
         notifyListeners();
       },
       onError: (err) {

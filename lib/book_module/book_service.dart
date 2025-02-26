@@ -6,12 +6,18 @@ import 'book_model.dart';
 class BookService {
   static Future read({
     int page = 1,
+    int categoryId = 0,
     required Function(Future<BookModel>) onRes,
     required Function(Object?) onError,
   }) async {
     String url =
         "https://agridocs-api.daovitou.net/mobile/v1/books?pages=$page&limit=8";
-    // String url = "https://agridocs-api.daovitou.net/mobile/v1/books/category/1";
+
+    if (categoryId > 0) {
+      url =
+          "https://agridocs-api.daovitou.net/mobile/v1/books/category/$categoryId";
+    }
+
     try {
       http.Response response = await http.get(Uri.parse(url));
       final data = compute(bookModelFromJson, response.body);
