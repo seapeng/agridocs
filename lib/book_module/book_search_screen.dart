@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import '../app_module/translate_data.dart';
 import '../app_module/translate_logic.dart';
 
@@ -162,7 +163,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
                     ),
                     SizedBox(width: 3),
                     Text(
-                      "20 មករា 2025",
+                      DateFormat('dd-MM-yyyy').format(book.createdAt),
                       style: TextStyle(fontSize: 12),
                     ),
                   ],
@@ -205,8 +206,11 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
           author: book.author,
           issued: book.issued,
           page: book.page,
+          isbn: book.isbn,
+          issn: book.issn,
           image: book.image,
           ebook: book.ebook,
+          createdAt: book.createdAt,
           language: book.language.name,
           bookCategory: book.bookCategory.name,
         ),

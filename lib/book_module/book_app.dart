@@ -4,7 +4,6 @@ import '../app_module/theme_logic.dart';
 import '../app_module/translate_logic.dart';
 
 import 'book_logic.dart';
-import 'book_category_logic.dart';
 import 'book_screen.dart';
 import 'book_splashscreen.dart';
 

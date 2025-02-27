@@ -238,7 +238,7 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        DateFormat('dd-MM-yyyy').format(video.published),
+                        DateFormat('dd-MM-yyyy').format(video.createdAt),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -253,7 +253,7 @@ class _VideoScreenState extends State<VideoScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        343.toString(),
+                        video.viewer.toString(),
                         style: TextStyle(
                           fontSize: 12,
                         ),

@@ -92,6 +92,8 @@ class Videos {
   String youtubeId;
   DateTime published;
   String author;
+  int viewer;
+  DateTime createdAt;
   int videoCategoryId;
   int languageId;
   Language language;
@@ -103,6 +105,8 @@ class Videos {
     required this.youtubeId,
     required this.published,
     required this.author,
+    required this.viewer,
+    required this.createdAt,
     required this.videoCategoryId,
     required this.languageId,
     required this.language,
@@ -115,6 +119,8 @@ class Videos {
         youtubeId: json["youtubeId"],
         published: DateTime.parse(json['published']),
         author: json["author"],
+        viewer: json["viewer"],
+        createdAt: DateTime.parse(json["createdAt"]),
         videoCategoryId: json["videoCategoryId"],
         languageId: json["languageId"],
         language: Language.fromJson(json["language"]),
@@ -127,6 +133,8 @@ class Videos {
         "youtubeId": youtubeId,
         "published": published,
         "author": author,
+        "viewer": viewer,
+        "createdAt": createdAt,
         "videoCategoryId": videoCategoryId,
         "languageId": languageId,
         "language": language.toJson(),

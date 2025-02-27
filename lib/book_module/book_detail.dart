@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'read_book.dart';
 
@@ -10,8 +11,11 @@ class BookDetail extends StatefulWidget {
   final String author;
   final DateTime issued;
   final int page;
+  final String isbn;
+  final String issn;
   final String image;
   final String ebook;
+  final DateTime createdAt;
   final String language;
   final String bookCategory;
 
@@ -22,8 +26,11 @@ class BookDetail extends StatefulWidget {
     required this.author,
     required this.issued,
     required this.page,
+    required this.isbn,
+    required this.issn,
     required this.image,
     required this.ebook,
+    required this.createdAt,
     required this.language,
     required this.bookCategory,
   });
@@ -33,6 +40,26 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  @override
+  void initState() {
+    super.initState();
+    _countBookView(widget.id);
+  }
+
+  Future<void> _countBookView(int bookId) async {
+    debugPrint(bookId.toString());
+    final url =
+        Uri.parse('https://agridocs-api.daovitou.net/mobile/v1/books/$bookId');
+    // final response = await http.get(url);
+    await http.get(url);
+
+    // if (response.statusCode == 200) {
+    //   debugPrint("View counted successfully");
+    // } else {
+    //   debugPrint("Failed to count view: ${response.statusCode}");
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +89,8 @@ class _BookDetailState extends State<BookDetail> {
               DateFormat('dd-MM-yyyy').format(widget.issued)),
           _buildDetailRow('ភាសា: ', widget.language),
           _buildDetailRow('ចំនួនទំព័រ: ', widget.page.toString()),
+          _buildDetailRow('ISBN: ', widget.isbn),
+          _buildDetailRow('ISSN: ', widget.issn),
           _buildDetailRow('ប្រភេទសៀវភៅ: ', widget.bookCategory),
         ],
       ),

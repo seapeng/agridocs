@@ -212,7 +212,7 @@ class _VideoSearchScreenState extends State<VideoSearchScreen> {
                       ),
                       SizedBox(width: 3),
                       Text(
-                        DateFormat('dd-MM-yyyy').format(video.published),
+                        DateFormat('dd-MM-yyyy').format(video.createdAt),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],

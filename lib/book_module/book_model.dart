@@ -97,6 +97,7 @@ class Books {
   String image;
   int viewer;
   String ebook;
+  DateTime createdAt;
   int bookCategoryId;
   int languageId;
   Language language;
@@ -114,6 +115,7 @@ class Books {
     required this.image,
     required this.viewer,
     required this.ebook,
+    required this.createdAt,
     required this.bookCategoryId,
     required this.languageId,
     required this.language,
@@ -132,6 +134,7 @@ class Books {
         image: json["image"],
         viewer: json["viewer"] ?? 0,
         ebook: json["ebook"],
+        createdAt: DateTime.parse(json["createdAt"]),
         bookCategoryId: json["bookCategoryId"],
         languageId: json["languageId"],
         language: Language.fromJson(json["language"]),
@@ -150,6 +153,7 @@ class Books {
         "image": image,
         "viewer": viewer.toString(),
         "ebook": ebook,
+        "createdAt": createdAt.toString(),
         "bookCategoryId": bookCategoryId,
         "languageId": languageId,
         "language": language.toJson(),

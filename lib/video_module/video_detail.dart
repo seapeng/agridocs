@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
@@ -31,6 +32,7 @@ class _VideoDetailState extends State<VideoDetail> {
   @override
   void initState() {
     super.initState();
+    _countBookView(widget.id);
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
       ..loadRequest(Uri.dataFromString(
@@ -49,6 +51,20 @@ class _VideoDetailState extends State<VideoDetail> {
         mimeType: 'text/html',
         encoding: utf8,
       ));
+  }
+
+  Future<void> _countBookView(int bookId) async {
+    debugPrint(bookId.toString());
+    final url =
+        Uri.parse('https://agridocs-api.daovitou.net/mobile/v1/videos/$bookId');
+    // final response = await http.get(url);
+    await http.get(url);
+
+    // if (response.statusCode == 200) {
+    //   debugPrint("View counted successfully");
+    // } else {
+    //   debugPrint("Failed to count view: ${response.statusCode}");
+    // }
   }
 
   @override
