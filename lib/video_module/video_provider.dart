@@ -13,6 +13,6 @@ Widget videoProvider() {
       ChangeNotifierProvider(create: (context) => VideoSearchLogic()),
       ChangeNotifierProvider(create: (context) => VideoCategoryLogic()),
     ],
-    child: VideoApp(categoryId: 0),
+    child: VideoApp(),
   );
 }

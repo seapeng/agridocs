@@ -131,7 +131,7 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-  Widget _buildListView(List<Videos> items) {
+  Widget _buildListView(List<Videos> videos) {
     bool loading = context.watch<VideoLogic>().loading;
     bool categoryLoading = context.watch<VideoLogic>().categoryLoading;
 
@@ -148,25 +148,38 @@ class _VideoScreenState extends State<VideoScreen> {
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   controller: _scroller,
-                  itemCount: items.length + 1,
+                  itemCount: videos.length + 1,
                   itemBuilder: (context, index) {
-                    if (index < items.length) {
-                      return _buildListItem(items[index]);
+                    if (index < videos.length) {
+                      return _buildListItem(videos[index]);
                     } else {
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        child: loading
-                            ? const CircularProgressIndicator()
-                            : Text(_lang.noMoreData),
-                      );
+                      if (videos.isNotEmpty) {
+                        return Container(
+                          padding: const EdgeInsets.all(10),
+                          alignment: Alignment.center,
+                          child: loading
+                              ? const CircularProgressIndicator()
+                              : Text(_lang.noMoreData),
+                        );
+                      }
                     }
                   },
                 ),
               ),
+              if (videos.isEmpty)
+                Positioned.fill(
+                  child: Container(
+                    alignment: Alignment.center,
+                    // color: Color(0xFFfef7ff), // Optional: Dim background
+                    child: Center(
+                      child: Text(_lang.noData),
+                    ),
+                  ),
+                ),
               if (categoryLoading)
                 Positioned.fill(
                   child: Container(
+                    alignment: Alignment.center,
                     color: Color(0xFFfef7ff), // Optional: Dim background
                     child: Center(
                       child: CircularProgressIndicator(),

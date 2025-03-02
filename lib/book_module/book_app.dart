@@ -13,15 +13,15 @@ Widget providerBookApp() {
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
       ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
-    child: BookApp(categoryId: 0),
+    child: BookApp(),
   );
 }
 
 class BookApp extends StatefulWidget {
-  // const BookApp({super.key});
-  final int categoryId;
+  const BookApp({super.key});
+  // final int categoryId;
 
-  BookApp({required this.categoryId});
+  // BookApp({required this.categoryId});
 
   @override
   State<BookApp> createState() => _BookAppState();
@@ -55,7 +55,7 @@ class _BookAppState extends State<BookApp> {
   }
 
   Future<void> _fetchData() async {
-    await context.read<BookLogic>().read(widget.categoryId);
+    await context.read<BookLogic>().read(0);
   }
 
   Widget _buildLoadingScreen() {

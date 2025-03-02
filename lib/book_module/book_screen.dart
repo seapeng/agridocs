@@ -172,6 +172,16 @@ class _BookScreenState extends State<BookScreen> {
                   },
                 ),
               ),
+              if (books.isEmpty)
+                Positioned.fill(
+                  child: Container(
+                    alignment: Alignment.center,
+                    // color: Color(0xFFfef7ff), // Optional: Dim background
+                    child: Center(
+                      child: Text(_lang.noData),
+                    ),
+                  ),
+                ),
               if (categoryLoading)
                 Positioned.fill(
                   child: Container(

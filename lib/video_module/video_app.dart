@@ -13,15 +13,12 @@ Widget providerVideoApp() {
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
       ChangeNotifierProvider(create: (context) => TranslateLogic()),
     ],
-    child: VideoApp(categoryId: 0),
+    child: VideoApp(),
   );
 }
 
 class VideoApp extends StatefulWidget {
-  // const VideoApp({super.key});
-  final int categoryId;
-
-  VideoApp({required this.categoryId});
+  const VideoApp({super.key});
 
   @override
   State<VideoApp> createState() => _VideoAppState();

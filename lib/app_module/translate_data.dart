@@ -16,6 +16,7 @@ class Translate {
   String get contact => "Contact";
   String get about => "About";
   String get noMoreData => "No more data";
+  String get noData => "No data";
 }
 
 class Khmer implements Translate {
@@ -36,4 +37,5 @@ class Khmer implements Translate {
   String get contact => "ទំនាក់ទំនង";
   String get about => "អំពីបណ្ណាល័យ";
   String get noMoreData => "មិនមានទិន្និន័យបន្ថែម";
+  String get noData => "មិនមានទិន្និន័យ";
 }

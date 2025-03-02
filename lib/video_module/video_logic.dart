@@ -7,7 +7,7 @@ class VideoLogic extends ChangeNotifier {
   List<Videos> _records = [];
   List<Videos> get records => _records;
 
-  bool _loading = true;
+  bool _loading = false;
   bool get loading => _loading;
 
   bool _categoryLoading = false;
