@@ -161,6 +161,8 @@ class _VideoScreenState extends State<VideoScreen> {
                               ? const CircularProgressIndicator()
                               : Text(_lang.noMoreData),
                         );
+                      } else {
+                        return null;
                       }
                     }
                   },
