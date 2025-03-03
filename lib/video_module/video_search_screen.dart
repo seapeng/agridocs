@@ -98,61 +98,35 @@ class _VideoSearchScreenState extends State<VideoSearchScreen> {
     );
   }
 
-  Widget _buildGridView(List<Videos> items) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<VideoSearchLogic>().setLoading();
-        context.read<VideoSearchLogic>().search(_searchCtrl.text.trim());
-      },
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return _buildListItem(items[index]);
-        },
-      ),
-      // child: GridView.builder(
-      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //     crossAxisCount: 1,
-      //     mainAxisSpacing: 5,
-      //     crossAxisSpacing: 5,
-      //     childAspectRatio: 4 / 6,
-      //   ),
-      //   itemCount: items.length,
-      //   physics: const BouncingScrollPhysics(),
-      //   itemBuilder: (context, index) {
-      //     return _buildItem(items[index]);
-      //   },
-      // ),
+  Widget _buildGridView(List<Videos> videos) {
+    return Stack(
+      children: [
+        RefreshIndicator(
+          onRefresh: () async {
+            context.read<VideoSearchLogic>().setLoading();
+            context.read<VideoSearchLogic>().search(_searchCtrl.text.trim());
+          },
+          child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: videos.length,
+            itemBuilder: (context, index) {
+              return _buildListItem(videos[index]);
+            },
+          ),
+        ),
+        if (videos.isEmpty)
+          Positioned.fill(
+            child: Container(
+              alignment: Alignment.center,
+              // color: Color(0xFFfef7ff), // Optional: Dim background
+              child: Center(
+                child: Text(_lang.noData),
+              ),
+            ),
+          ),
+      ],
     );
   }
-
-  // Widget _buildItem(Videos item) {
-  //   return Card(
-  //     child: Column(
-  //       children: [
-  //         Expanded(
-  //           child: ClipRRect(
-  //             borderRadius: BorderRadius.circular(10),
-  //             child: Image.network(
-  //               "https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg",
-  //               width: double.maxFinite,
-  //               fit: BoxFit.cover,
-  //             ),
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Text(
-  //             item.title,
-  //             maxLines: 1,
-  //             overflow: TextOverflow.ellipsis,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _buildListItem(Videos video) {
     return Container(

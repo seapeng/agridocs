@@ -99,24 +99,38 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   }
 
   Widget _buildGridView(List<Books> books) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<BookSearchLogic>().setLoading();
-        context.read<BookSearchLogic>().search(_searchCtrl.text.trim());
-      },
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          childAspectRatio: 4 / 7,
+    return Stack(
+      children: [
+        RefreshIndicator(
+          onRefresh: () async {
+            context.read<BookSearchLogic>().setLoading();
+            context.read<BookSearchLogic>().search(_searchCtrl.text.trim());
+          },
+          child: GridView.builder(
+            physics: const BouncingScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              childAspectRatio: 4 / 7,
+            ),
+            itemCount: books.length,
+            itemBuilder: (context, index) {
+              return _buildItem(books[index]);
+            },
+          ),
         ),
-        itemCount: books.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return _buildItem(books[index]);
-        },
-      ),
+        if (books.isEmpty)
+          Positioned.fill(
+            child: Container(
+              alignment: Alignment.center,
+              // color: Color(0xFFfef7ff), // Optional: Dim background
+              child: Center(
+                child: Text(_lang.noData),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
