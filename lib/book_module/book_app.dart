@@ -19,10 +19,6 @@ Widget providerBookApp() {
 
 class BookApp extends StatefulWidget {
   const BookApp({super.key});
-  // final int categoryId;
-
-  // BookApp({required this.categoryId});
-
   @override
   State<BookApp> createState() => _BookAppState();
 }

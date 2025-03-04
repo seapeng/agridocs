@@ -13,6 +13,9 @@ class VideoLogic extends ChangeNotifier {
   bool _categoryLoading = false;
   bool get categoryLoading => _categoryLoading;
 
+  bool _moreData = false;
+  bool get moreData => _moreData;
+
   Object? _error;
   Object? get error => _error;
 
@@ -35,15 +38,22 @@ class VideoLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records += data.data.videos;
+        _loading = false;
+        // if (data.data.totalRecords == _records.length) {
+        //   _loading = false;
+        // } else {
+        //   _loading = true;
+        // }
         if (data.data.totalRecords == _records.length) {
-          _loading = false;
+          _moreData = false;
         } else {
-          _loading = true;
+          _moreData = true;
         }
         notifyListeners();
       },
       onError: (err) {
         _error = err;
+        _loading = false;
         notifyListeners();
       },
     );
@@ -55,16 +65,23 @@ class VideoLogic extends ChangeNotifier {
       onRes: (value) async {
         final data = await value;
         _records = data.data.videos;
-        if (data.data.totalRecords == _records.length) {
-          _loading = false;
-        } else {
-          _loading = true;
-        }
+        _loading = false;
+        // if (data.data.totalRecords == _records.length) {
+        //   _loading = false;
+        // } else {
+        //   _loading = true;
+        // }
         _categoryLoading = false;
+        if (data.data.totalRecords == _records.length) {
+          _moreData = false;
+        } else {
+          _moreData = true;
+        }
         notifyListeners();
       },
       onError: (err) {
         _error = err;
+        _loading = false;
         notifyListeners();
       },
     );

@@ -133,6 +133,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildListView(List<Videos> videos) {
     bool loading = context.watch<VideoLogic>().loading;
+    bool moreData = context.watch<VideoLogic>().moreData;
     bool categoryLoading = context.watch<VideoLogic>().categoryLoading;
 
     List<Categories> categoriesRecords =
@@ -157,9 +158,7 @@ class _VideoScreenState extends State<VideoScreen> {
                         return Container(
                           padding: const EdgeInsets.all(10),
                           alignment: Alignment.center,
-                          child: loading
-                              ? const CircularProgressIndicator()
-                              : Text(_lang.noMoreData),
+                          child: moreData ? null : Text(_lang.noMoreData),
                         );
                       } else {
                         return null;
@@ -186,6 +185,15 @@ class _VideoScreenState extends State<VideoScreen> {
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
+                  ),
+                ),
+              if (loading)
+                Positioned(
+                  bottom: 20, // Adjust vertical position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
             ],

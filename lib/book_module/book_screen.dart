@@ -165,23 +165,24 @@ class _BookScreenState extends State<BookScreen> {
                     if (index < books.length) {
                       return _buildItem(books[index]);
                     } else {
-                      return moreData
-                          ? null
-                          : Center(child: Text(_lang.noMoreData));
+                      return null;
+                      // return moreData
+                      //     ? null
+                      //     : Center(child: Text(_lang.noMoreData));
                     }
                   },
                 ),
               ),
-              if (books.isEmpty)
-                Positioned.fill(
-                  child: Container(
-                    alignment: Alignment.center,
-                    // color: Color(0xFFfef7ff), // Optional: Dim background
-                    child: Center(
-                      child: Text(_lang.noData),
-                    ),
-                  ),
-                ),
+              // if (books.isEmpty)
+              //   Positioned.fill(
+              //     child: Container(
+              //       alignment: Alignment.center,
+              //       // color: Color(0xFFfef7ff), // Optional: Dim background
+              //       child: Center(
+              //         child: Text(_lang.noData),
+              //       ),
+              //     ),
+              //   ),
               if (categoryLoading)
                 Positioned.fill(
                   child: Container(

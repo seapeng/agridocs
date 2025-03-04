@@ -84,7 +84,7 @@ class _VideoDetailState extends State<VideoDetail> {
         Divider(),
         _buildDetailRow('ផលិតដោយ: ', widget.author),
         _buildDetailRow(
-          'ថ្ងៃផលិត: ',
+          'ថ្ងៃផ្សព្វផ្សាយ: ',
           DateFormat('dd-MM-yyyy').format(widget.published),
         ),
         _buildDetailRow('ភាសា: ', widget.language),

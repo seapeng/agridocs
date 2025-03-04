@@ -45,12 +45,6 @@ class BookLogic extends ChangeNotifier {
         } else {
           _moreData = true;
         }
-
-        // if (data.data.totalRecords == _records.length) {
-        //   _loading = false;
-        // } else {
-        //   _loading = true;
-        // }
         notifyListeners();
       },
       onError: (err) {
@@ -71,11 +65,11 @@ class BookLogic extends ChangeNotifier {
         _loading = false;
         _categoryLoading = false;
 
-        // if (data.data.totalRecords == _records.length) {
-        //   _moreData = false;
-        // } else {
-        _moreData = true;
-        // }
+        if (data.data.totalRecords == _records.length) {
+          _moreData = false;
+        } else {
+          _moreData = true;
+        }
         notifyListeners();
       },
       onError: (err) {
